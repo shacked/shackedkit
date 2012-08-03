@@ -1,0 +1,11 @@
+*.pbxproj -diff
+xcschememanagement.plist -diff
+*.xcbkptlist -diff
+*.xcscheme -diff
+*.xcsettings -diff
+*.xcuserdatad -diff
+*.xcuserstate -diff
+*.xcworkspace -diff
+*.xcworkspacedata -diff
+*.xib -diff
+*.nib -diff
