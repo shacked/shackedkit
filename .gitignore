@@ -13,3 +13,6 @@ build/*
 xcuserdata
 profile
 *.moved-aside
+*.mode1
+*.perspective
+.DS_Store
