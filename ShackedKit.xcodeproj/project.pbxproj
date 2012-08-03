@@ -9,24 +9,29 @@
 /* Begin PBXBuildFile section */
 		55242CCD15CB7CDD001F3E25 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 55242CCC15CB7CDD001F3E25 /* Foundation.framework */; };
 		55242CD015CB7CDD001F3E25 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 55242CCF15CB7CDD001F3E25 /* main.m */; };
-		55242CDF15CB7D05001F3E25 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 55242CDE15CB7D05001F3E25 /* UIKit.framework */; };
 		55242CE015CB7D05001F3E25 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 55242CCC15CB7CDD001F3E25 /* Foundation.framework */; };
-		55242CE215CB7D05001F3E25 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 55242CE115CB7D05001F3E25 /* CoreGraphics.framework */; };
 		55242CE815CB7D05001F3E25 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 55242CE615CB7D05001F3E25 /* InfoPlist.strings */; };
 		55242CEA15CB7D05001F3E25 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 55242CE915CB7D05001F3E25 /* main.m */; };
 		55242CEE15CB7D05001F3E25 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 55242CED15CB7D05001F3E25 /* AppDelegate.m */; };
-		55242CFA15CB8006001F3E25 /* SSAssert.m in Sources */ = {isa = PBXBuildFile; fileRef = 55242CF515CB7DB9001F3E25 /* SSAssert.m */; };
-		55242CFC15CB8006001F3E25 /* SSUtilities.m in Sources */ = {isa = PBXBuildFile; fileRef = 55242CF715CB7DBA001F3E25 /* SSUtilities.m */; };
-		55242CFF15CB82E5001F3E25 /* SSSingleton.m in Sources */ = {isa = PBXBuildFile; fileRef = 55242CFE15CB82E5001F3E25 /* SSSingleton.m */; };
-		55242D1315CBB89B001F3E25 /* SSAssert.m in Sources */ = {isa = PBXBuildFile; fileRef = 55242CF515CB7DB9001F3E25 /* SSAssert.m */; };
-		55242D1415CBB89B001F3E25 /* SSUtilities.m in Sources */ = {isa = PBXBuildFile; fileRef = 55242CF715CB7DBA001F3E25 /* SSUtilities.m */; };
-		55242D1515CBB89B001F3E25 /* SSSingleton.m in Sources */ = {isa = PBXBuildFile; fileRef = 55242CFE15CB82E5001F3E25 /* SSSingleton.m */; };
-		55242D1615CBB89B001F3E25 /* SSCFAutorelease.m in Sources */ = {isa = PBXBuildFile; fileRef = 55242D1115CBB88B001F3E25 /* SSCFAutorelease.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
-		55242D1715CBB8A0001F3E25 /* SSCFAutorelease.m in Sources */ = {isa = PBXBuildFile; fileRef = 55242D1115CBB88B001F3E25 /* SSCFAutorelease.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
-		55242D1A15CBB935001F3E25 /* NSTimer+SSBlockTimer.m in Sources */ = {isa = PBXBuildFile; fileRef = 55242D1915CBB935001F3E25 /* NSTimer+SSBlockTimer.m */; };
-		55242D1B15CBB97D001F3E25 /* NSTimer+SSBlockTimer.m in Sources */ = {isa = PBXBuildFile; fileRef = 55242D1915CBB935001F3E25 /* NSTimer+SSBlockTimer.m */; };
-		55242D1E15CBB9C7001F3E25 /* SSObservation.m in Sources */ = {isa = PBXBuildFile; fileRef = 55242D1D15CBB9C7001F3E25 /* SSObservation.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
-		55242D1F15CBB9C7001F3E25 /* SSObservation.m in Sources */ = {isa = PBXBuildFile; fileRef = 55242D1D15CBB9C7001F3E25 /* SSObservation.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		558958EA15CBC7AD000EA3C4 /* NSTimer+SSBlockTimer.m in Sources */ = {isa = PBXBuildFile; fileRef = 558958DE15CBC7AD000EA3C4 /* NSTimer+SSBlockTimer.m */; };
+		558958EB15CBC7AD000EA3C4 /* NSTimer+SSBlockTimer.m in Sources */ = {isa = PBXBuildFile; fileRef = 558958DE15CBC7AD000EA3C4 /* NSTimer+SSBlockTimer.m */; };
+		558958EC15CBC7AD000EA3C4 /* SSAssert.m in Sources */ = {isa = PBXBuildFile; fileRef = 558958E115CBC7AD000EA3C4 /* SSAssert.m */; };
+		558958ED15CBC7AD000EA3C4 /* SSAssert.m in Sources */ = {isa = PBXBuildFile; fileRef = 558958E115CBC7AD000EA3C4 /* SSAssert.m */; };
+		558958EE15CBC7AD000EA3C4 /* SSCFAutorelease.m in Sources */ = {isa = PBXBuildFile; fileRef = 558958E315CBC7AD000EA3C4 /* SSCFAutorelease.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		558958EF15CBC7AD000EA3C4 /* SSCFAutorelease.m in Sources */ = {isa = PBXBuildFile; fileRef = 558958E315CBC7AD000EA3C4 /* SSCFAutorelease.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		558958F015CBC7AD000EA3C4 /* SSObservation.m in Sources */ = {isa = PBXBuildFile; fileRef = 558958E515CBC7AD000EA3C4 /* SSObservation.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		558958F115CBC7AD000EA3C4 /* SSObservation.m in Sources */ = {isa = PBXBuildFile; fileRef = 558958E515CBC7AD000EA3C4 /* SSObservation.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		558958F215CBC7AD000EA3C4 /* SSSingleton.m in Sources */ = {isa = PBXBuildFile; fileRef = 558958E715CBC7AD000EA3C4 /* SSSingleton.m */; };
+		558958F315CBC7AD000EA3C4 /* SSSingleton.m in Sources */ = {isa = PBXBuildFile; fileRef = 558958E715CBC7AD000EA3C4 /* SSSingleton.m */; };
+		558958F415CBC7AD000EA3C4 /* SSUtilities.m in Sources */ = {isa = PBXBuildFile; fileRef = 558958E915CBC7AD000EA3C4 /* SSUtilities.m */; };
+		558958F515CBC7AD000EA3C4 /* SSUtilities.m in Sources */ = {isa = PBXBuildFile; fileRef = 558958E915CBC7AD000EA3C4 /* SSUtilities.m */; };
+		5589590D15CBC91E000EA3C4 /* SSFlipRect.m in Sources */ = {isa = PBXBuildFile; fileRef = 5589590C15CBC91E000EA3C4 /* SSFlipRect.m */; };
+		5589590E15CBC91E000EA3C4 /* SSFlipRect.m in Sources */ = {isa = PBXBuildFile; fileRef = 5589590C15CBC91E000EA3C4 /* SSFlipRect.m */; };
+		5589591715CBCADB000EA3C4 /* SSContext.m in Sources */ = {isa = PBXBuildFile; fileRef = 5589591615CBCADB000EA3C4 /* SSContext.m */; };
+		5589591815CBCADB000EA3C4 /* SSContext.m in Sources */ = {isa = PBXBuildFile; fileRef = 5589591615CBCADB000EA3C4 /* SSContext.m */; };
+		5589591A15CBCB96000EA3C4 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5589591915CBCB96000EA3C4 /* CoreGraphics.framework */; };
+		5589591C15CBCB9B000EA3C4 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5589591B15CBCB9B000EA3C4 /* CoreGraphics.framework */; };
+		5589591E15CBCBA3000EA3C4 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5589591D15CBCBA3000EA3C4 /* UIKit.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -55,19 +60,27 @@
 		55242CEB15CB7D05001F3E25 /* prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = prefix.pch; sourceTree = "<group>"; };
 		55242CEC15CB7D05001F3E25 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		55242CED15CB7D05001F3E25 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
-		55242CF315CB7DB9001F3E25 /* ShackedKit.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = ShackedKit.h; path = Source/ShackedKit.h; sourceTree = "<group>"; };
-		55242CF415CB7DB9001F3E25 /* SSAssert.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = SSAssert.h; path = Source/SSAssert.h; sourceTree = "<group>"; };
-		55242CF515CB7DB9001F3E25 /* SSAssert.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = SSAssert.m; path = Source/SSAssert.m; sourceTree = "<group>"; };
-		55242CF615CB7DB9001F3E25 /* SSUtilities.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = SSUtilities.h; path = Source/SSUtilities.h; sourceTree = "<group>"; };
-		55242CF715CB7DBA001F3E25 /* SSUtilities.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = SSUtilities.m; path = Source/SSUtilities.m; sourceTree = "<group>"; };
-		55242CFD15CB82E5001F3E25 /* SSSingleton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SSSingleton.h; path = Source/SSSingleton.h; sourceTree = "<group>"; };
-		55242CFE15CB82E5001F3E25 /* SSSingleton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SSSingleton.m; path = Source/SSSingleton.m; sourceTree = "<group>"; };
-		55242D1015CBB88B001F3E25 /* SSCFAutorelease.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = SSCFAutorelease.h; path = Source/SSCFAutorelease.h; sourceTree = "<group>"; };
-		55242D1115CBB88B001F3E25 /* SSCFAutorelease.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = SSCFAutorelease.m; path = Source/SSCFAutorelease.m; sourceTree = "<group>"; };
-		55242D1815CBB935001F3E25 /* NSTimer+SSBlockTimer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSTimer+SSBlockTimer.h"; path = "Source/NSTimer+SSBlockTimer.h"; sourceTree = "<group>"; };
-		55242D1915CBB935001F3E25 /* NSTimer+SSBlockTimer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSTimer+SSBlockTimer.m"; path = "Source/NSTimer+SSBlockTimer.m"; sourceTree = "<group>"; };
-		55242D1C15CBB9C6001F3E25 /* SSObservation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SSObservation.h; path = Source/SSObservation.h; sourceTree = "<group>"; };
-		55242D1D15CBB9C7001F3E25 /* SSObservation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SSObservation.m; path = Source/SSObservation.m; sourceTree = "<group>"; };
+		558958DD15CBC7AD000EA3C4 /* NSTimer+SSBlockTimer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSTimer+SSBlockTimer.h"; sourceTree = "<group>"; };
+		558958DE15CBC7AD000EA3C4 /* NSTimer+SSBlockTimer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSTimer+SSBlockTimer.m"; sourceTree = "<group>"; };
+		558958DF15CBC7AD000EA3C4 /* ShackedFoundation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ShackedFoundation.h; sourceTree = "<group>"; };
+		558958E015CBC7AD000EA3C4 /* SSAssert.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SSAssert.h; sourceTree = "<group>"; };
+		558958E115CBC7AD000EA3C4 /* SSAssert.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SSAssert.m; sourceTree = "<group>"; };
+		558958E215CBC7AD000EA3C4 /* SSCFAutorelease.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SSCFAutorelease.h; sourceTree = "<group>"; };
+		558958E315CBC7AD000EA3C4 /* SSCFAutorelease.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SSCFAutorelease.m; sourceTree = "<group>"; };
+		558958E415CBC7AD000EA3C4 /* SSObservation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SSObservation.h; sourceTree = "<group>"; };
+		558958E515CBC7AD000EA3C4 /* SSObservation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SSObservation.m; sourceTree = "<group>"; };
+		558958E615CBC7AD000EA3C4 /* SSSingleton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SSSingleton.h; sourceTree = "<group>"; };
+		558958E715CBC7AD000EA3C4 /* SSSingleton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SSSingleton.m; sourceTree = "<group>"; };
+		558958E815CBC7AD000EA3C4 /* SSUtilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SSUtilities.h; sourceTree = "<group>"; };
+		558958E915CBC7AD000EA3C4 /* SSUtilities.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SSUtilities.m; sourceTree = "<group>"; };
+		5589590B15CBC91E000EA3C4 /* SSFlipRect.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SSFlipRect.h; sourceTree = "<group>"; };
+		5589590C15CBC91E000EA3C4 /* SSFlipRect.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SSFlipRect.m; sourceTree = "<group>"; };
+		5589590F15CBCA1D000EA3C4 /* ShackedGraphics.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ShackedGraphics.h; sourceTree = "<group>"; };
+		5589591515CBCADB000EA3C4 /* SSContext.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SSContext.h; sourceTree = "<group>"; };
+		5589591615CBCADB000EA3C4 /* SSContext.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SSContext.m; sourceTree = "<group>"; };
+		5589591915CBCB96000EA3C4 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.8.sdk/System/Library/Frameworks/CoreGraphics.framework; sourceTree = DEVELOPER_DIR; };
+		5589591B15CBCB9B000EA3C4 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS5.1.sdk/System/Library/Frameworks/CoreGraphics.framework; sourceTree = DEVELOPER_DIR; };
+		5589591D15CBCBA3000EA3C4 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS5.1.sdk/System/Library/Frameworks/UIKit.framework; sourceTree = DEVELOPER_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -75,6 +88,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5589591A15CBCB96000EA3C4 /* CoreGraphics.framework in Frameworks */,
 				55242CCD15CB7CDD001F3E25 /* Foundation.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -83,9 +97,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				55242CDF15CB7D05001F3E25 /* UIKit.framework in Frameworks */,
+				5589591E15CBCBA3000EA3C4 /* UIKit.framework in Frameworks */,
+				5589591C15CBCB9B000EA3C4 /* CoreGraphics.framework in Frameworks */,
 				55242CE015CB7D05001F3E25 /* Foundation.framework in Frameworks */,
-				55242CE215CB7D05001F3E25 /* CoreGraphics.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -95,19 +109,11 @@
 		55242CB715CB7855001F3E25 = {
 			isa = PBXGroup;
 			children = (
-				55242CF315CB7DB9001F3E25 /* ShackedKit.h */,
-				55242CF615CB7DB9001F3E25 /* SSUtilities.h */,
-				55242CF715CB7DBA001F3E25 /* SSUtilities.m */,
-				55242CF415CB7DB9001F3E25 /* SSAssert.h */,
-				55242CF515CB7DB9001F3E25 /* SSAssert.m */,
-				55242D1015CBB88B001F3E25 /* SSCFAutorelease.h */,
-				55242D1115CBB88B001F3E25 /* SSCFAutorelease.m */,
-				55242CFD15CB82E5001F3E25 /* SSSingleton.h */,
-				55242CFE15CB82E5001F3E25 /* SSSingleton.m */,
-				55242D1C15CBB9C6001F3E25 /* SSObservation.h */,
-				55242D1D15CBB9C7001F3E25 /* SSObservation.m */,
-				55242D1815CBB935001F3E25 /* NSTimer+SSBlockTimer.h */,
-				55242D1915CBB935001F3E25 /* NSTimer+SSBlockTimer.m */,
+				5589591D15CBCBA3000EA3C4 /* UIKit.framework */,
+				5589591B15CBCB9B000EA3C4 /* CoreGraphics.framework */,
+				5589591915CBCB96000EA3C4 /* CoreGraphics.framework */,
+				558958DC15CBC7AD000EA3C4 /* ShackedFoundation */,
+				5589590A15CBC913000EA3C4 /* ShackedGraphics */,
 				55242CCE15CB7CDD001F3E25 /* ShackedKitTestMac */,
 				55242CE315CB7D05001F3E25 /* ShackedKitTestMobile */,
 				55242CC915CB7CDD001F3E25 /* Products */,
@@ -154,6 +160,38 @@
 				55242CEB15CB7D05001F3E25 /* prefix.pch */,
 			);
 			path = ShackedKitTestMobile;
+			sourceTree = "<group>";
+		};
+		558958DC15CBC7AD000EA3C4 /* ShackedFoundation */ = {
+			isa = PBXGroup;
+			children = (
+				558958DF15CBC7AD000EA3C4 /* ShackedFoundation.h */,
+				558958DD15CBC7AD000EA3C4 /* NSTimer+SSBlockTimer.h */,
+				558958DE15CBC7AD000EA3C4 /* NSTimer+SSBlockTimer.m */,
+				558958E015CBC7AD000EA3C4 /* SSAssert.h */,
+				558958E115CBC7AD000EA3C4 /* SSAssert.m */,
+				558958E215CBC7AD000EA3C4 /* SSCFAutorelease.h */,
+				558958E315CBC7AD000EA3C4 /* SSCFAutorelease.m */,
+				558958E415CBC7AD000EA3C4 /* SSObservation.h */,
+				558958E515CBC7AD000EA3C4 /* SSObservation.m */,
+				558958E615CBC7AD000EA3C4 /* SSSingleton.h */,
+				558958E715CBC7AD000EA3C4 /* SSSingleton.m */,
+				558958E815CBC7AD000EA3C4 /* SSUtilities.h */,
+				558958E915CBC7AD000EA3C4 /* SSUtilities.m */,
+			);
+			path = ShackedFoundation;
+			sourceTree = "<group>";
+		};
+		5589590A15CBC913000EA3C4 /* ShackedGraphics */ = {
+			isa = PBXGroup;
+			children = (
+				5589590F15CBCA1D000EA3C4 /* ShackedGraphics.h */,
+				5589590B15CBC91E000EA3C4 /* SSFlipRect.h */,
+				5589590C15CBC91E000EA3C4 /* SSFlipRect.m */,
+				5589591515CBCADB000EA3C4 /* SSContext.h */,
+				5589591615CBCADB000EA3C4 /* SSContext.m */,
+			);
+			path = ShackedGraphics;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -235,13 +273,15 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				55242D1715CBB8A0001F3E25 /* SSCFAutorelease.m in Sources */,
-				55242CFA15CB8006001F3E25 /* SSAssert.m in Sources */,
-				55242CFC15CB8006001F3E25 /* SSUtilities.m in Sources */,
 				55242CD015CB7CDD001F3E25 /* main.m in Sources */,
-				55242CFF15CB82E5001F3E25 /* SSSingleton.m in Sources */,
-				55242D1A15CBB935001F3E25 /* NSTimer+SSBlockTimer.m in Sources */,
-				55242D1E15CBB9C7001F3E25 /* SSObservation.m in Sources */,
+				558958EA15CBC7AD000EA3C4 /* NSTimer+SSBlockTimer.m in Sources */,
+				558958EC15CBC7AD000EA3C4 /* SSAssert.m in Sources */,
+				558958EE15CBC7AD000EA3C4 /* SSCFAutorelease.m in Sources */,
+				558958F015CBC7AD000EA3C4 /* SSObservation.m in Sources */,
+				558958F215CBC7AD000EA3C4 /* SSSingleton.m in Sources */,
+				558958F415CBC7AD000EA3C4 /* SSUtilities.m in Sources */,
+				5589590D15CBC91E000EA3C4 /* SSFlipRect.m in Sources */,
+				5589591715CBCADB000EA3C4 /* SSContext.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -249,14 +289,16 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				55242D1B15CBB97D001F3E25 /* NSTimer+SSBlockTimer.m in Sources */,
-				55242D1315CBB89B001F3E25 /* SSAssert.m in Sources */,
-				55242D1415CBB89B001F3E25 /* SSUtilities.m in Sources */,
-				55242D1515CBB89B001F3E25 /* SSSingleton.m in Sources */,
-				55242D1615CBB89B001F3E25 /* SSCFAutorelease.m in Sources */,
 				55242CEA15CB7D05001F3E25 /* main.m in Sources */,
 				55242CEE15CB7D05001F3E25 /* AppDelegate.m in Sources */,
-				55242D1F15CBB9C7001F3E25 /* SSObservation.m in Sources */,
+				558958EB15CBC7AD000EA3C4 /* NSTimer+SSBlockTimer.m in Sources */,
+				558958ED15CBC7AD000EA3C4 /* SSAssert.m in Sources */,
+				558958EF15CBC7AD000EA3C4 /* SSCFAutorelease.m in Sources */,
+				558958F115CBC7AD000EA3C4 /* SSObservation.m in Sources */,
+				558958F315CBC7AD000EA3C4 /* SSSingleton.m in Sources */,
+				558958F515CBC7AD000EA3C4 /* SSUtilities.m in Sources */,
+				5589590E15CBC91E000EA3C4 /* SSFlipRect.m in Sources */,
+				5589591815CBCADB000EA3C4 /* SSContext.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

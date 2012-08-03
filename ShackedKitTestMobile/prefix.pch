@@ -3,5 +3,6 @@
 #ifdef __OBJC__
     #import <UIKit/UIKit.h>
     #import <Foundation/Foundation.h>
-    #import "ShackedKit.h"
+    #import "ShackedFoundation.h"
+    #import "ShackedGraphics.h"
 #endif

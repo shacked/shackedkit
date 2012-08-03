@@ -1,5 +1,4 @@
 #import "SSSingleton.h"
-#import "SSAssert.h"
 
 @implementation SSSingleton
 static NSMutableDictionary *gEntries = nil;

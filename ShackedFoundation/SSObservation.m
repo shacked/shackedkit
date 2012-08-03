@@ -5,7 +5,6 @@
 #import "SSObservation.h"
 #import <objc/runtime.h>
 #import <libkern/OSAtomic.h>
-#import "SSCFAutorelease.h"
 
 static dispatch_semaphore_t gEntriesLock = nil;
 static CFMutableDictionaryRef gEntries = nil;
