@@ -32,7 +32,7 @@ static NSMutableDictionary *gEntries = nil;
             result = [[cls alloc] initSingleton];
             
             if (result)
-                [gEntries setObject: result forKey: (id)cls];
+                gEntries[(id)cls] = result;
         }
     }
     
