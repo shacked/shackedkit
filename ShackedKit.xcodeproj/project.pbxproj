@@ -18,6 +18,15 @@
 		55242CFA15CB8006001F3E25 /* SSAssert.m in Sources */ = {isa = PBXBuildFile; fileRef = 55242CF515CB7DB9001F3E25 /* SSAssert.m */; };
 		55242CFC15CB8006001F3E25 /* SSUtilities.m in Sources */ = {isa = PBXBuildFile; fileRef = 55242CF715CB7DBA001F3E25 /* SSUtilities.m */; };
 		55242CFF15CB82E5001F3E25 /* SSSingleton.m in Sources */ = {isa = PBXBuildFile; fileRef = 55242CFE15CB82E5001F3E25 /* SSSingleton.m */; };
+		55242D1315CBB89B001F3E25 /* SSAssert.m in Sources */ = {isa = PBXBuildFile; fileRef = 55242CF515CB7DB9001F3E25 /* SSAssert.m */; };
+		55242D1415CBB89B001F3E25 /* SSUtilities.m in Sources */ = {isa = PBXBuildFile; fileRef = 55242CF715CB7DBA001F3E25 /* SSUtilities.m */; };
+		55242D1515CBB89B001F3E25 /* SSSingleton.m in Sources */ = {isa = PBXBuildFile; fileRef = 55242CFE15CB82E5001F3E25 /* SSSingleton.m */; };
+		55242D1615CBB89B001F3E25 /* SSCFAutorelease.m in Sources */ = {isa = PBXBuildFile; fileRef = 55242D1115CBB88B001F3E25 /* SSCFAutorelease.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		55242D1715CBB8A0001F3E25 /* SSCFAutorelease.m in Sources */ = {isa = PBXBuildFile; fileRef = 55242D1115CBB88B001F3E25 /* SSCFAutorelease.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		55242D1A15CBB935001F3E25 /* NSTimer+SSBlockTimer.m in Sources */ = {isa = PBXBuildFile; fileRef = 55242D1915CBB935001F3E25 /* NSTimer+SSBlockTimer.m */; };
+		55242D1B15CBB97D001F3E25 /* NSTimer+SSBlockTimer.m in Sources */ = {isa = PBXBuildFile; fileRef = 55242D1915CBB935001F3E25 /* NSTimer+SSBlockTimer.m */; };
+		55242D1E15CBB9C7001F3E25 /* SSObservation.m in Sources */ = {isa = PBXBuildFile; fileRef = 55242D1D15CBB9C7001F3E25 /* SSObservation.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		55242D1F15CBB9C7001F3E25 /* SSObservation.m in Sources */ = {isa = PBXBuildFile; fileRef = 55242D1D15CBB9C7001F3E25 /* SSObservation.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -53,6 +62,12 @@
 		55242CF715CB7DBA001F3E25 /* SSUtilities.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = SSUtilities.m; path = Source/SSUtilities.m; sourceTree = "<group>"; };
 		55242CFD15CB82E5001F3E25 /* SSSingleton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SSSingleton.h; path = Source/SSSingleton.h; sourceTree = "<group>"; };
 		55242CFE15CB82E5001F3E25 /* SSSingleton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SSSingleton.m; path = Source/SSSingleton.m; sourceTree = "<group>"; };
+		55242D1015CBB88B001F3E25 /* SSCFAutorelease.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = SSCFAutorelease.h; path = Source/SSCFAutorelease.h; sourceTree = "<group>"; };
+		55242D1115CBB88B001F3E25 /* SSCFAutorelease.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = SSCFAutorelease.m; path = Source/SSCFAutorelease.m; sourceTree = "<group>"; };
+		55242D1815CBB935001F3E25 /* NSTimer+SSBlockTimer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSTimer+SSBlockTimer.h"; path = "Source/NSTimer+SSBlockTimer.h"; sourceTree = "<group>"; };
+		55242D1915CBB935001F3E25 /* NSTimer+SSBlockTimer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSTimer+SSBlockTimer.m"; path = "Source/NSTimer+SSBlockTimer.m"; sourceTree = "<group>"; };
+		55242D1C15CBB9C6001F3E25 /* SSObservation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SSObservation.h; path = Source/SSObservation.h; sourceTree = "<group>"; };
+		55242D1D15CBB9C7001F3E25 /* SSObservation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SSObservation.m; path = Source/SSObservation.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -81,16 +96,22 @@
 			isa = PBXGroup;
 			children = (
 				55242CF315CB7DB9001F3E25 /* ShackedKit.h */,
-				55242CF415CB7DB9001F3E25 /* SSAssert.h */,
-				55242CF515CB7DB9001F3E25 /* SSAssert.m */,
 				55242CF615CB7DB9001F3E25 /* SSUtilities.h */,
 				55242CF715CB7DBA001F3E25 /* SSUtilities.m */,
+				55242CF415CB7DB9001F3E25 /* SSAssert.h */,
+				55242CF515CB7DB9001F3E25 /* SSAssert.m */,
+				55242D1015CBB88B001F3E25 /* SSCFAutorelease.h */,
+				55242D1115CBB88B001F3E25 /* SSCFAutorelease.m */,
 				55242CFD15CB82E5001F3E25 /* SSSingleton.h */,
 				55242CFE15CB82E5001F3E25 /* SSSingleton.m */,
+				55242D1C15CBB9C6001F3E25 /* SSObservation.h */,
+				55242D1D15CBB9C7001F3E25 /* SSObservation.m */,
+				55242D1815CBB935001F3E25 /* NSTimer+SSBlockTimer.h */,
+				55242D1915CBB935001F3E25 /* NSTimer+SSBlockTimer.m */,
 				55242CCE15CB7CDD001F3E25 /* ShackedKitTestMac */,
 				55242CE315CB7D05001F3E25 /* ShackedKitTestMobile */,
-				55242CCB15CB7CDD001F3E25 /* Frameworks */,
 				55242CC915CB7CDD001F3E25 /* Products */,
+				55242CCB15CB7CDD001F3E25 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -127,20 +148,12 @@
 			children = (
 				55242CEC15CB7D05001F3E25 /* AppDelegate.h */,
 				55242CED15CB7D05001F3E25 /* AppDelegate.m */,
-				55242CE415CB7D05001F3E25 /* Supporting Files */,
-			);
-			path = ShackedKitTestMobile;
-			sourceTree = "<group>";
-		};
-		55242CE415CB7D05001F3E25 /* Supporting Files */ = {
-			isa = PBXGroup;
-			children = (
 				55242CE515CB7D05001F3E25 /* Info.plist */,
 				55242CE615CB7D05001F3E25 /* InfoPlist.strings */,
 				55242CE915CB7D05001F3E25 /* main.m */,
 				55242CEB15CB7D05001F3E25 /* prefix.pch */,
 			);
-			name = "Supporting Files";
+			path = ShackedKitTestMobile;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -222,10 +235,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				55242D1715CBB8A0001F3E25 /* SSCFAutorelease.m in Sources */,
 				55242CFA15CB8006001F3E25 /* SSAssert.m in Sources */,
 				55242CFC15CB8006001F3E25 /* SSUtilities.m in Sources */,
 				55242CD015CB7CDD001F3E25 /* main.m in Sources */,
 				55242CFF15CB82E5001F3E25 /* SSSingleton.m in Sources */,
+				55242D1A15CBB935001F3E25 /* NSTimer+SSBlockTimer.m in Sources */,
+				55242D1E15CBB9C7001F3E25 /* SSObservation.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -233,8 +249,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				55242D1B15CBB97D001F3E25 /* NSTimer+SSBlockTimer.m in Sources */,
+				55242D1315CBB89B001F3E25 /* SSAssert.m in Sources */,
+				55242D1415CBB89B001F3E25 /* SSUtilities.m in Sources */,
+				55242D1515CBB89B001F3E25 /* SSSingleton.m in Sources */,
+				55242D1615CBB89B001F3E25 /* SSCFAutorelease.m in Sources */,
 				55242CEA15CB7D05001F3E25 /* main.m in Sources */,
 				55242CEE15CB7D05001F3E25 /* AppDelegate.m in Sources */,
+				55242D1F15CBB9C7001F3E25 /* SSObservation.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -407,6 +429,7 @@
 				55242CD715CB7CDD001F3E25 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		55242CEF15CB7D05001F3E25 /* Build configuration list for PBXNativeTarget "ShackedKitTestMobile" */ = {
 			isa = XCConfigurationList;
@@ -415,6 +438,7 @@
 				55242CF115CB7D05001F3E25 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

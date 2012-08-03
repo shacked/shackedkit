@@ -6,6 +6,7 @@
 #define SSStringify(a) #a
 #define SSStringConstExtern(constantName) extern NSString *const constantName;
 #define SSStringConst(constantName) NSString *const constantName = @SSStringify(constantName)
+#define SSStaticArrayCount(array) (sizeof(array) / sizeof(*array))
 
 #define SSConfirmOrPerform(condition, action)      \
 ({                                                 \

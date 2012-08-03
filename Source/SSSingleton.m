@@ -25,14 +25,14 @@ static NSMutableDictionary *gEntries = nil;
     
     @synchronized(gEntries)
     {
-        result = gEntries[cls];
+        result = [gEntries objectForKey: (id)cls];
         
         if (!result)
         {
             result = [[cls alloc] initSingleton];
             
             if (result)
-                gEntries[(id)cls] = result;
+                [gEntries setObject: result forKey: (id)cls];
         }
     }
     
