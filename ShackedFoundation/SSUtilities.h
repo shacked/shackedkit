@@ -41,3 +41,19 @@
     __typeof__(max) __max = (max);                                          \
     __value <= __min ? __min : (__value >= __max ? __max : __value);        \
 })
+
+#define SSValueInRange(value, min, max)         \
+({                                              \
+    __typeof__(value) __value = (value);        \
+    __typeof__(min) __min = (min);              \
+    __typeof__(max) __max = (max);              \
+    __value >= __min && __value <=  __max;      \
+})
+
+#define SSValueInRangeExclusive(value, min, max)      \
+({                                                    \
+    __typeof__(value) __value = (value);              \
+    __typeof__(min) __min = (min);                    \
+    __typeof__(max) __max = (max);                    \
+    __value >= __min && __value <  __max;             \
+})
