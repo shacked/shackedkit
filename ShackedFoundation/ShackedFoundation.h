@@ -3,4 +3,5 @@
 #import "SSCFAutorelease.h"
 #import "SSSingleton.h"
 #import "SSObservation.h"
+#import "SSSetTimer.h"
 #import "NSTimer+SSBlockTimer.h"
