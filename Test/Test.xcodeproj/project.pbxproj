@@ -34,6 +34,8 @@
 		5589591E15CBCBA3000EA3C4 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5589591D15CBCBA3000EA3C4 /* UIKit.framework */; };
 		558959E015CBDBCA000EA3C4 /* SSSetTimer.m in Sources */ = {isa = PBXBuildFile; fileRef = 558959DF15CBDBCA000EA3C4 /* SSSetTimer.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		558959E115CBDBCA000EA3C4 /* SSSetTimer.m in Sources */ = {isa = PBXBuildFile; fileRef = 558959DF15CBDBCA000EA3C4 /* SSSetTimer.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		558959F115CBE032000EA3C4 /* SSScaleFactor.m in Sources */ = {isa = PBXBuildFile; fileRef = 558959F015CBE032000EA3C4 /* SSScaleFactor.m */; };
+		558959F215CBE032000EA3C4 /* SSScaleFactor.m in Sources */ = {isa = PBXBuildFile; fileRef = 558959F015CBE032000EA3C4 /* SSScaleFactor.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -83,6 +85,8 @@
 		5589591D15CBCBA3000EA3C4 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS5.1.sdk/System/Library/Frameworks/UIKit.framework; sourceTree = DEVELOPER_DIR; };
 		558959DE15CBDBCA000EA3C4 /* SSSetTimer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SSSetTimer.h; sourceTree = "<group>"; };
 		558959DF15CBDBCA000EA3C4 /* SSSetTimer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SSSetTimer.m; sourceTree = "<group>"; };
+		558959EF15CBE032000EA3C4 /* SSScaleFactor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SSScaleFactor.h; sourceTree = "<group>"; };
+		558959F015CBE032000EA3C4 /* SSScaleFactor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SSScaleFactor.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -193,6 +197,8 @@
 				5589590C15CBC91E000EA3C4 /* SSFlipRect.m */,
 				5589591515CBCADB000EA3C4 /* SSContext.h */,
 				5589591615CBCADB000EA3C4 /* SSContext.m */,
+				558959EF15CBE032000EA3C4 /* SSScaleFactor.h */,
+				558959F015CBE032000EA3C4 /* SSScaleFactor.m */,
 			);
 			name = ShackedGraphics;
 			path = ../ShackedGraphics;
@@ -287,6 +293,7 @@
 				5589590D15CBC91E000EA3C4 /* SSFlipRect.m in Sources */,
 				5589591715CBCADB000EA3C4 /* SSContext.m in Sources */,
 				558959E015CBDBCA000EA3C4 /* SSSetTimer.m in Sources */,
+				558959F115CBE032000EA3C4 /* SSScaleFactor.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -305,6 +312,7 @@
 				5589590E15CBC91E000EA3C4 /* SSFlipRect.m in Sources */,
 				5589591815CBCADB000EA3C4 /* SSContext.m in Sources */,
 				558959E115CBDBCA000EA3C4 /* SSSetTimer.m in Sources */,
+				558959F215CBE032000EA3C4 /* SSScaleFactor.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
