@@ -12,11 +12,11 @@ CGContextRef SSContextCreateColor(size_t width, size_t height)
         CGColorSpaceRef colorSpace = SSCFAutorelease(CGColorSpaceCreateDeviceRGB());
     #endif
     
-        SSAssertOrPerform(colorSpace, return nil);
+        SSAssertOrRecover(colorSpace, return nil);
     
     CGContextRef result = CGBitmapContextCreate(nil, width, height, 8, (width * 4),
         colorSpace, (kCGBitmapByteOrderDefault | kCGImageAlphaPremultipliedLast));
-        SSAssertOrPerform(result, return nil);
+        SSAssertOrRecover(result, return nil);
     
     return result;
 }
@@ -33,11 +33,11 @@ CGContextRef SSContextCreateGray(size_t width, size_t height)
         CGColorSpaceRef colorSpace = SSCFAutorelease(CGColorSpaceCreateDeviceGray());
     #endif
     
-        SSAssertOrPerform(colorSpace, return nil);
+        SSAssertOrRecover(colorSpace, return nil);
     
     CGContextRef result = CGBitmapContextCreate(nil, width, height, 8, (width * 1),
         colorSpace, (kCGBitmapByteOrderDefault | kCGImageAlphaNone));
-        SSAssertOrPerform(result, return nil);
+        SSAssertOrRecover(result, return nil);
     
     return result;
 }
@@ -51,13 +51,13 @@ void SSContextMask(CGContextRef context, void (^drawMaskBlock)(CGContextRef cont
     size_t maskWidth = lround(maskRect.size.width);
     size_t maskHeight = lround(maskRect.size.height);
     CGContextRef maskContext = SSCFAutorelease(SSContextCreateGray(maskWidth, maskHeight));
-        SSAssertOrPerform(maskContext, return);
+        SSAssertOrRecover(maskContext, return);
     
     CGContextClearRect(maskContext, CGRectMake(0, 0, maskWidth, maskHeight));
     drawMaskBlock(maskContext);
     
     CGImageRef maskImage = SSCFAutorelease(CGBitmapContextCreateImage(maskContext));
-        SSAssertOrPerform(maskImage, return);
+        SSAssertOrRecover(maskImage, return);
     
     CGContextClipToMask(context, maskRect, maskImage);
 }
@@ -69,12 +69,12 @@ CGImageRef SSImageCreate(size_t width, size_t height, void (^drawContentBlock)(C
         NSCParameterAssert(drawContentBlock);
     
     CGContextRef context = SSCFAutorelease(SSContextCreateColor(width, height));
-        SSAssertOrPerform(context, return nil);
+        SSAssertOrRecover(context, return nil);
     
     drawContentBlock(context);
     
     CGImageRef result = CGBitmapContextCreateImage(context);
-        SSAssertOrPerform(result, return nil);
+        SSAssertOrRecover(result, return nil);
     
     return result;
 }

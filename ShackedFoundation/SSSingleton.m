@@ -42,7 +42,7 @@ static NSMutableDictionary *gEntries = nil;
 {
     /* Here we'll simply return the object that would have been supplied if the caller invoked [ReceiverClass sharedInstance]. */
         /* Verify that -init hasn't been overridden by a subclass (SSSingleton subclasses must use -initSingleton.) */
-        SSAssertOrRaise([SSSingleton instanceMethodForSelector: @selector(init)] == [[self class] instanceMethodForSelector: @selector(init)]);
+        SSAssertOrBail([SSSingleton instanceMethodForSelector: @selector(init)] == [[self class] instanceMethodForSelector: @selector(init)]);
     
     return [[self class] sharedInstance];
 }

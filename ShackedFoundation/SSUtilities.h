@@ -18,6 +18,13 @@
 })
 #define SSNoOp (void)0
 
+#define SSValueOrFallback(value, fallback)             \
+({                                                     \
+    __typeof__(value) __value = (value);               \
+    __typeof__(fallback) __fallback = (fallback);      \
+    __value ? __value : __fallback;                    \
+})
+
 #define SSMin(a, b)               \
 ({                                \
     __typeof__(a) __a = (a);      \

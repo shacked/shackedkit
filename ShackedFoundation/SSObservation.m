@@ -4,10 +4,13 @@
 
 #import "SSObservation.h"
 #import <objc/runtime.h>
+#import <objc/message.h>
 #import <libkern/OSAtomic.h>
 
-static dispatch_semaphore_t gEntriesLock = nil;
-static CFMutableDictionaryRef gEntries = nil;
+static SEL kObserveeSwizzledDeallocSelector = nil;
+/* Key used for objc associated-objects API. Not using 'com.shacked' namespacing because it's used as a pointer value. */
+static SSStringConst(kObservationsMapKey);
+static NSLock *gMasterLock = nil;
 
 @implementation SSObservation
 {
@@ -24,11 +27,10 @@ static CFMutableDictionaryRef gEntries = nil;
 {
     static dispatch_once_t initToken = 0;
     dispatch_once(&initToken,
-    ^{
-        /* Maps observee (NSObject) -> keyPaths (NSString) -> observations (CFSet) */
-        gEntriesLock = dispatch_semaphore_create(1);
-        gEntries = CFDictionaryCreateMutable(nil, 0, nil, &kCFTypeDictionaryValueCallBacks);
-    });
+        ^{
+            kObserveeSwizzledDeallocSelector = @selector(com_shacked_foundation_observation_observeeSwizzledDealloc);
+            gMasterLock = [[NSLock alloc] init];
+        });
 }
 
 + (SSObservation *)observeObject: (NSObject *)observee keyPath: (NSString *)keyPath
@@ -52,34 +54,82 @@ static CFMutableDictionaryRef gEntries = nil;
     mKeyPath = [keyPath retain];
     mHandlerBlock = [handlerBlock copy];
     mOptions = options;
-    [[self class] addObservation: self];
+    
+    NSMutableDictionary *observationsMap = lockWithObserveeAndGetObservationsMap(mObservee, YES);
+            /* Grave error if we didn't acquire the lock */
+            SSAssertOrBail(observationsMap);
+        
+        CFMutableSetRef observations = (CFMutableSetRef)[observationsMap objectForKey: mKeyPath];
+            /* Grave error state if this assertion fails */
+            SSAssertOrBail(!observations || CFSetGetCount(observations) > 0);
+        
+        if (!observations)
+        {
+            observations = SSCFAutorelease(CFSetCreateMutable(nil, 0, nil));
+            [observationsMap setObject: (id)observations forKey: mKeyPath];
+        }
+        
+        CFSetAddValue(observations, self);
+        swizzleDeallocForObserveeClass([mObservee class]);
+        /* Mask the 'Initial' KVO option to prevent us from calling-out while the lock is held */
+        [mObservee addObserver: (id)[SSObservation class] forKeyPath: mKeyPath options: (mOptions & ~NSKeyValueObservingOptionInitial) context: self];
+    unlockWithObservee(mObservee);
+    
+    /* Emulate the 'Initial' KVO option now that we've relinquished the lock and it's safe to call out. */
+    if (mOptions & NSKeyValueObservingOptionInitial)
+    {
+        NSMutableDictionary *change = [NSMutableDictionary dictionaryWithObject: [NSNumber numberWithUnsignedInteger: NSKeyValueChangeSetting] forKey: NSKeyValueChangeKindKey];
+        if (mOptions & NSKeyValueObservingOptionNew)
+            [change setObject: SSValueOrFallback([mObservee valueForKeyPath: mKeyPath], [NSNull null]) forKey: NSKeyValueChangeNewKey];
+        mHandlerBlock(self, change);
+    }
     
     return self;
 }
 
 - (void)invalidate
 {
-    [self invalidateAcquireLock: YES];
+    [self invalidateWithObservationsMap: nil];
 }
 
-- (void)invalidateAcquireLock: (BOOL)acquireLock
+- (void)invalidateWithObservationsMap: (NSMutableDictionary *)observationsMap
 {
-    /* See handleObserveeDeallocation() for rationale for the 'acquireLock' business */
-    if (OSAtomicCompareAndSwap32(NO, YES, &mInvalidated))
-    {
-        /* Mirror of -init */
-        [[self class] removeObservation: self acquireLock: acquireLock];
-        
-        mOptions = 0;
-        
-        [mHandlerBlock release],
-        mHandlerBlock = nil;
-        
-        [mKeyPath release],
-        mKeyPath = nil;
-        
-        mObservee = nil;
-    };
+    /* We use the observationsMap as a flag as well as for it's content; if observationsMap == nil, we consider that as meaning
+       'acquire the lock for our observee. If observationsMap != nil, then we don't acquire the lock. See
+       handleObserveeDeallocation() for the rationale. */
+        SSConfirmOrPerform(OSAtomicCompareAndSwap32(NO, YES, &mInvalidated), return);
+    
+    /* Perform in reverse of -init! */
+    /* If we weren't given an observations map, we acquire the lock so that we can get it */
+    BOOL acquireLock = !observationsMap;
+    if (acquireLock)
+        observationsMap = lockWithObserveeAndGetObservationsMap(mObservee, NO);
+    
+        /* Grave error if we don't have an observations map at this point, or if the observations map is empty */
+        SSAssertOrBail(observationsMap && [observationsMap count]);
+    
+    [mObservee removeObserver: (id)[SSObservation class] forKeyPath: mKeyPath context: self];
+    
+    CFMutableSetRef observations = (CFMutableSetRef)[observationsMap objectForKey: mKeyPath];
+        /* Grave error if this assertion fails */
+        SSAssertOrBail(observations && CFSetGetCount(observations) > 0);
+    
+    CFSetRemoveValue(observations, self);
+    if (!CFSetGetCount(observations))
+        [observationsMap removeObjectForKey: mKeyPath];
+    
+    if (acquireLock)
+        unlockWithObservee(mObservee);
+    
+    mOptions = 0;
+    
+    [mHandlerBlock release],
+    mHandlerBlock = nil;
+    
+    [mKeyPath release],
+    mKeyPath = nil;
+    
+    mObservee = nil;
 }
 
 - (void)dealloc
@@ -89,134 +139,136 @@ static CFMutableDictionaryRef gEntries = nil;
 }
 
 #pragma mark - Private Methods -
+static NSMutableDictionary *lockWithObserveeAndGetObservationsMap(NSObject *observee, BOOL allowCreateObservationsMap)
+{
+        NSCParameterAssert(observee);
+    
+    /* Retain the observee for the duration that we're locked with it */
+    [observee retain];
+    [gMasterLock lock];
+    
+    NSMutableDictionary *observationsMap = objc_getAssociatedObject(observee, kObservationsMapKey);
+    if (!observationsMap && allowCreateObservationsMap)
+    {
+        observationsMap = [[[NSMutableDictionary alloc] init] autorelease];
+        objc_setAssociatedObject(observee, kObservationsMapKey, observationsMap, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+    }
+        /* Grave error if we don't have an observations map and we were supposed to create one */
+        SSAssertOrBail(observationsMap || !allowCreateObservationsMap);
+    
+    /* Cleanup if we're not returning that we acquired the lock (result == nil), since unlock() won't be called. */
+    if (!observationsMap)
+    {
+        [gMasterLock unlock];
+        [observee release];
+    }
+    return observationsMap;
+}
+
+static void unlockWithObservee(NSObject *observee)
+{
+        NSCParameterAssert(observee);
+    
+    /* Perform in reverse of lock()! */
+    NSMutableDictionary *observationsMap = objc_getAssociatedObject(observee, kObservationsMapKey);
+        /* Grave error if we don't have an observations map, since it was created in lock() and no one else should have removed it but us. */
+        SSAssertOrBail(observationsMap);
+    
+    /* Remove the observations map if it's empty */
+    if (![observationsMap count])
+        objc_setAssociatedObject(observee, kObservationsMapKey, nil, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+    
+    [gMasterLock unlock];
+    [observee release];
+}
+
 static void handleObserveeDeallocation(NSObject *observee)
 {
         NSCParameterAssert(observee);
     
-    dispatch_semaphore_wait(gEntriesLock, DISPATCH_TIME_FOREVER);
-    
-        /* There's no guarantee that keyPath2ObservationsMap will exist for the given observee! (At the instant before we acquire the
-           lock, it's possible that another thread -invalidated every SSObservation.) */
-        /* Combine all our SSObservations into an array, so we're not enumerating over changing collections */
-        NSMutableArray *observations = [NSMutableArray array];
-        for (NSSet *currentObservations in [[(id)gEntries objectForKey: observee] objectEnumerator])
-            [observations addObjectsFromArray: [currentObservations allObjects]];
+    NSMutableDictionary *observationsMap = lockWithObserveeAndGetObservationsMap(observee, NO);
+    if (observationsMap)
+    {
+        /* We have active observations for observee since observationsMap != nil, so iterate over every observations set in the map,
+           and invalidate every observation. */
+        /* ### We have to invalidate the observations *before* we relinquish the lock, because an observation could be in the process
+           of deallocation, and relinquishing the lock would allow the SSObservation to call [super dealloc], and the memory would be
+           freed. While we hold the lock, we're guaranteed that the SSObservation hasn't acquired the lock in -invalidate, and
+           therefore we can safely message it until we relinquish the lock. */
+        /* ### We're forced to use the CFSet APIs to access to the SSObservations, because we have to be sure that they're not going
+           to be messaged after we relinquish the lock e.g. by being placed in an autorelease pool. */
+        for (id currentObservations in [[observationsMap allValues] objectEnumerator])
+        {
+            CFIndex currentObservationsCount = CFSetGetCount((CFSetRef)currentObservations);
+                /* Grave error if our observations set is empty! */
+                SSAssertOrBail(currentObservationsCount > 0);
+            
+            SSObservation **observations = malloc(sizeof(*observations) * currentObservationsCount);
+                SSAssertOrRecover(observations, continue);
+            CFSetGetValues((CFSetRef)currentObservations, (const void **)observations);
+            
+            for (NSUInteger currentObservationIndex = 0; currentObservationIndex < currentObservationsCount; currentObservationIndex++)
+                [observations[currentObservationIndex] invalidateWithObservationsMap: observationsMap];
+            
+            free(observations),
+            observations = nil;
+        }
         
-        /* Invalidate every SSObservation for 'observee' */
-        /* We acquired gEntriesLock above, so we avoid acquiring it during invalidation to avoid deadlock. */
-        for (SSObservation *observation in observations)
-            [observation invalidateAcquireLock: NO];
-    
-    dispatch_semaphore_signal(gEntriesLock);
+        unlockWithObservee(observee);
+    }
 }
 
-static void observeeInterposedDealloc(NSObject *observee)
+static void observeeSwizzledDealloc(NSObject *observee, SEL _cmd)
 {
         NSCParameterAssert(observee);
     
-    /* This function overrides the dynamic KVO subclass' implementation of dealloc. We do not call the original KVO subclass implementation
-       because the call to -handleObserveeDeallocation: causes the correct KVO cleanup to occur (-removeObserver:), which would have
-       otherwise occurred due to the KVO subclass' -dealloc method. Therefore, we simply call the observee's dealloc method after performing
-       our cleanup. */
     handleObserveeDeallocation(observee);
-    [observee dealloc];
+    objc_msgSend(observee, kObserveeSwizzledDeallocSelector);
 }
 
-static void interposeDeallocForObserveeClass(Class observeeClass)
+static void swizzleDeallocForObserveeClass(Class observeeClass)
 {
         NSCParameterAssert(observeeClass);
     
     const char *deallocTypeEncoding = method_getTypeEncoding(class_getInstanceMethod([NSObject class], @selector(dealloc)));
-        SSAssertOrPerform(deallocTypeEncoding, return);
+        SSAssertOrRecover(deallocTypeEncoding, return);
     
-    IMP replaceMethodResult = class_replaceMethod(observeeClass, @selector(dealloc), (IMP)observeeInterposedDealloc, deallocTypeEncoding);
-        SSAssertOrPerform(replaceMethodResult, return);
-}
-
-+ (void)addObservation: (SSObservation *)observation
-{
-        NSParameterAssert(observation);
+    /* Create our swizzled dealloc method on observeeClass. If class_addMethod() fails, it means we already performed our swizzling on observeeClass, so we'll gracefully return. */
+    BOOL addMethodResult = class_addMethod(observeeClass, kObserveeSwizzledDeallocSelector, (IMP)observeeSwizzledDealloc, deallocTypeEncoding);
+        SSConfirmOrPerform(addMethodResult, return);
+    Method swizzledDeallocMethod = class_getInstanceMethod(observeeClass, kObserveeSwizzledDeallocSelector);
+        SSAssertOrRecover(swizzledDeallocMethod, return);
     
-    /* We need to guarantee the observee's lifetime for this method, to ensure that it isn't deallocated
-       prematurely. (Namely, before we swizzle the dynamic-KVO-subclass' -dealloc method.) */
-    [[observation->mObservee retain] autorelease];
-    
-    dispatch_semaphore_wait(gEntriesLock, DISPATCH_TIME_FOREVER);
-        NSMutableDictionary *keyPath2ObservationsMap = [(id)gEntries objectForKey: observation->mObservee];
-            /* Gravely inconsistent state of this assertion fails */
-            SSAssertOrRaise(!keyPath2ObservationsMap || [keyPath2ObservationsMap count]);
-        
-        if (!keyPath2ObservationsMap)
+    /* Add a -dealloc method at the level of observeeClass, which will simply call super's implementation of dealloc. We want this method to exist at
+       the level of observeeClass so that we can swizzle it at that level and not a superclass' level, in order to avoid unnecessary overhead (e.g.,
+       if a class inherits from NSObject and doesn't implement a -dealloc method, we would otherwise be swizzling NSObject's -dealloc, and our code
+       would be executed any time any object is deallocated). */
+    Class observeeSuperclass = [observeeClass superclass];
+        /* Sanity-check: avoid swizzling the root class because we be crazy if we're overriding NSObject's -dealloc */
+        SSAssertOrBailWithNote(observeeSuperclass, @"Refraining from swizzling -dealloc of root class");
+    id deallocTrampolineBlock =
+        [[^(NSObject *observee)
         {
-            keyPath2ObservationsMap = [NSMutableDictionary dictionary];
-            CFDictionarySetValue(gEntries, observation->mObservee, keyPath2ObservationsMap);
-        }
-        
-        NSMutableSet *observations = [keyPath2ObservationsMap objectForKey: observation->mKeyPath];
-            /* Gravely inconsistent state of this assertion fails */
-            SSAssertOrRaise(!observations || [observations count] > 0);
-        
-        if (!observations)
-        {
-            observations = (id)SSCFAutorelease(CFSetCreateMutable(nil, 0, nil));
-            [keyPath2ObservationsMap setObject: observations forKey: observation->mKeyPath];
-        }
-        
-        /* We don't copy the block here! That's the caller's job, which ensures that the same pointer is supplied to both -addObservee and -removeObservee. */
-        [observations addObject: observation];
-        
-        /* We clear the 'Initial' KVO bit because we don't can't call out while our lock is held. (Once we relinquish the lock,
-           we invoke the block manually to emulate the Initial functionality.) */
-        [observation->mObservee addObserver: (NSObject *)self forKeyPath: observation->mKeyPath
-            options: (observation->mOptions & ~NSKeyValueObservingOptionInitial) context: observation];
-        
-        interposeDeallocForObserveeClass(object_getClass(observation->mObservee));
-    dispatch_semaphore_signal(gEntriesLock);
+            struct objc_super superInfo =
+            {
+                .receiver = observee,
+                .super_class = observeeSuperclass
+            };
+            
+            objc_msgSendSuper(&superInfo, @selector(dealloc));
+        } copy] autorelease];
+    IMP deallocTrampolineImp = imp_implementationWithBlock(deallocTrampolineBlock);
+    addMethodResult = class_addMethod(observeeClass, @selector(dealloc), deallocTrampolineImp, deallocTypeEncoding);
+    /* If we successfully added the method to observeeClass, retain the block so its IMP remains valid. */
+    if (addMethodResult)
+        [deallocTrampolineBlock retain];
     
-    /* Emulate the 'Initial' KVO option, now that we've relinquished the lock and it's safe to call out. */
-    if (observation->mOptions & NSKeyValueObservingOptionInitial)
-    {
-        NSMutableDictionary *change = [NSMutableDictionary dictionary];
-        [change setObject: [NSNumber numberWithUnsignedInteger: NSKeyValueChangeSetting] forKey: NSKeyValueChangeKindKey];
-        if (observation->mOptions & NSKeyValueObservingOptionNew)
-        {
-            NSObject *newValue = [observation->mObservee valueForKeyPath: observation->mKeyPath];
-            if (!newValue)
-                newValue = [NSNull null];
-            [change setObject: newValue forKey: NSKeyValueChangeNewKey];
-        }
-        observation->mHandlerBlock(observation, change);
-    }
-}
-
-+ (void)removeObservation: (SSObservation *)observation acquireLock: (BOOL)acquireLock
-{
-        NSParameterAssert(observation);
+    Method originalDeallocMethod = class_getInstanceMethod(observeeClass, @selector(dealloc));
+        SSAssertOrRecover(originalDeallocMethod, return);
     
-    if (acquireLock)
-        dispatch_semaphore_wait(gEntriesLock, DISPATCH_TIME_FOREVER);
-    
-    NSMutableDictionary *keyPath2ObservationsMap = [(id)gEntries objectForKey: observation->mObservee];
-        /* Gravely inconsistent state of this assertion fails */
-        SSAssertOrRaise(keyPath2ObservationsMap && [keyPath2ObservationsMap count]);
-    
-    NSMutableSet *observations = [keyPath2ObservationsMap objectForKey: observation->mKeyPath];
-        /* Gravely inconsistent state of this assertion fails */
-        SSAssertOrRaise(observations && [observations containsObject: observation]);
-    
-    [observation->mObservee removeObserver: (NSObject *)self forKeyPath: observation->mKeyPath context: observation];
-    [observations removeObject: observation];
-    
-    if (![observations count])
-    {
-        [keyPath2ObservationsMap removeObjectForKey: observation->mKeyPath];
-        
-        if (![keyPath2ObservationsMap count])
-            [(id)gEntries removeObjectForKey: observation->mObservee];
-    }
-    
-    if (acquireLock)
-        dispatch_semaphore_signal(gEntriesLock);
+    /* Swizzle the method implementations -- invoking 'dealloc' on instances of observeeClass will actually invoke our observeeSwizzledDealloc(),
+       and calling kObserveeSwizzledDeallocSelector on instances of observeeClass will actually invoke the original dealloc method. */
+    method_exchangeImplementations(originalDeallocMethod, swizzledDeallocMethod);
 }
 
 + (void)observeValueForKeyPath: (NSString *)keyPath ofObject: (NSObject *)observee change: (NSDictionary *)change context: (void *)context
@@ -225,14 +277,17 @@ static void interposeDeallocForObserveeClass(Class observeeClass)
         NSParameterAssert(observee);
     
     void (^handlerBlock)(SSObservation *observation, NSDictionary *change) = nil;
-    dispatch_semaphore_wait(gEntriesLock, DISPATCH_TIME_FOREVER);
-        /* Check if 'context' (a possibly-deallocated SSObservation) exists in the observations set. If so, it's still live
-           and we can safely access its mHandlerBlock while we hold the lock, since we know that it hasn't called
-           -removeObservation: yet (which happens when it's deallocated.) */
-        CFSetRef observations = (CFSetRef)[[(id)gEntries objectForKey: observee] objectForKey: keyPath];
-        if (CFSetContainsValue(observations, context))
+    NSMutableDictionary *observationsMap = lockWithObserveeAndGetObservationsMap(observee, NO);
+    if (observationsMap)
+    {
+        /* Check if 'context' (a possibly-deallocated SSObservation) exists in the observations set for the given key path.
+           If so, it's still live and we can safely access its mHandlerBlock while we hold the lock, since we know that it
+           hasn't started its invalidation yet (which happens when it's deallocated.) */
+        CFSetRef observations = (CFSetRef)[observationsMap objectForKey: keyPath];
+        if (observations && CFSetContainsValue(observations, context))
             handlerBlock = [[((SSObservation *)context)->mHandlerBlock retain] autorelease];
-    dispatch_semaphore_signal(gEntriesLock);
+        unlockWithObservee(observee);
+    }
     
     if (handlerBlock)
         handlerBlock(context, change);
