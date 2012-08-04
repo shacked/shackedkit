@@ -8,7 +8,7 @@
 #define SSStringConst(constantName) NSString *const constantName = @SSStringify(constantName)
 #define SSStaticArrayCount(array) (sizeof(array) / sizeof(*array))
 #define SSEqualBools(a, b) ((bool)(a) == (bool)(b))
-#define SSRaise(message, ...) [NSException raise: NSGenericException format: (message), ##__VA_ARGS__];
+#define SSRaise(message, ...) [NSException raise: NSGenericException format: (message), ##__VA_ARGS__]
 
 #define SSConfirmOrPerform(condition, action)      \
 ({                                                 \
