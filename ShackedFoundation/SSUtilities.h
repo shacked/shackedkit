@@ -22,8 +22,7 @@
 #define SSValueOrFallback(value, fallback)             \
 ({                                                     \
     __typeof__(value) __value = (value);               \
-    __typeof__(fallback) __fallback = (fallback);      \
-    __value ? __value : __fallback;                    \
+    __value ? __value : (fallback);                    \
 })
 
 #define SSMin(a, b)               \
