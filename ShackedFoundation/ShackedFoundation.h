@@ -1,6 +1,7 @@
 #import "SSUtilities.h"
 #import "SSAssert.h"
 #import "SSCFAutorelease.h"
+#import "SSGeometry.h"
 #import "SSSingleton.h"
 #import "SSObservation.h"
 #import "SSSetTimer.h"
