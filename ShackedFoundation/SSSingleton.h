@@ -6,7 +6,7 @@
 + (id)sharedInstanceForClass: (Class)cls;
 
 /* ### SSSingleton subclasses must not override -init! You should override -initSingleton instead.
-   Implement your -initSingleton the same as you would implement -init (e.g., by
+   Implement your -initSingleton the same as you would implement -init (i.e., by
    calling self = [super initSingleton] and returning self.) */
 - (id)initSingleton;
 @end
