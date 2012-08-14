@@ -1,3 +1,4 @@
+#import <Foundation/Foundation.h>
 #import <TargetConditionals.h>
 
 #define SSTargetOSX (TARGET_OS_MAC && !TARGET_OS_IPHONE)

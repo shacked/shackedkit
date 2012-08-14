@@ -6,6 +6,9 @@
 #import <objc/runtime.h>
 #import <objc/message.h>
 #import <libkern/OSAtomic.h>
+#import "SSAssert.h"
+#import "SSUtilities.h"
+#import "SSCFAutorelease.h"
 
 static SEL kObserveeSwizzledDeallocSelector = nil;
 /* Key used for objc associated-objects API. Not using 'com.shacked' namespacing because it's used as a pointer value. */

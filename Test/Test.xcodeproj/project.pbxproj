@@ -13,6 +13,8 @@
 		55242CE815CB7D05001F3E25 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 55242CE615CB7D05001F3E25 /* InfoPlist.strings */; };
 		55242CEA15CB7D05001F3E25 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 55242CE915CB7D05001F3E25 /* main.m */; };
 		55242CEE15CB7D05001F3E25 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 55242CED15CB7D05001F3E25 /* AppDelegate.m */; };
+		5578C8DA15D9F25200C249AD /* SSGeometry.m in Sources */ = {isa = PBXBuildFile; fileRef = 5578C8D915D9F25200C249AD /* SSGeometry.m */; };
+		5578C8DB15D9F25200C249AD /* SSGeometry.m in Sources */ = {isa = PBXBuildFile; fileRef = 5578C8D915D9F25200C249AD /* SSGeometry.m */; };
 		558958EA15CBC7AD000EA3C4 /* NSTimer+SSBlockTimer.m in Sources */ = {isa = PBXBuildFile; fileRef = 558958DE15CBC7AD000EA3C4 /* NSTimer+SSBlockTimer.m */; };
 		558958EB15CBC7AD000EA3C4 /* NSTimer+SSBlockTimer.m in Sources */ = {isa = PBXBuildFile; fileRef = 558958DE15CBC7AD000EA3C4 /* NSTimer+SSBlockTimer.m */; };
 		558958EC15CBC7AD000EA3C4 /* SSAssert.m in Sources */ = {isa = PBXBuildFile; fileRef = 558958E115CBC7AD000EA3C4 /* SSAssert.m */; };
@@ -62,6 +64,8 @@
 		55242CEB15CB7D05001F3E25 /* prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = prefix.pch; sourceTree = "<group>"; };
 		55242CEC15CB7D05001F3E25 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		55242CED15CB7D05001F3E25 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
+		5578C8D815D9F25200C249AD /* SSGeometry.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SSGeometry.h; sourceTree = "<group>"; };
+		5578C8D915D9F25200C249AD /* SSGeometry.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SSGeometry.m; sourceTree = "<group>"; };
 		558958DD15CBC7AD000EA3C4 /* NSTimer+SSBlockTimer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSTimer+SSBlockTimer.h"; sourceTree = "<group>"; };
 		558958DE15CBC7AD000EA3C4 /* NSTimer+SSBlockTimer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSTimer+SSBlockTimer.m"; sourceTree = "<group>"; };
 		558958DF15CBC7AD000EA3C4 /* ShackedFoundation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ShackedFoundation.h; sourceTree = "<group>"; };
@@ -184,6 +188,8 @@
 				558958E915CBC7AD000EA3C4 /* SSUtilities.m */,
 				558959DE15CBDBCA000EA3C4 /* SSSetTimer.h */,
 				558959DF15CBDBCA000EA3C4 /* SSSetTimer.m */,
+				5578C8D815D9F25200C249AD /* SSGeometry.h */,
+				5578C8D915D9F25200C249AD /* SSGeometry.m */,
 			);
 			name = ShackedFoundation;
 			path = ../ShackedFoundation;
@@ -294,6 +300,7 @@
 				5589591715CBCADB000EA3C4 /* SSContext.m in Sources */,
 				558959E015CBDBCA000EA3C4 /* SSSetTimer.m in Sources */,
 				558959F115CBE032000EA3C4 /* SSScaleFactor.m in Sources */,
+				5578C8DA15D9F25200C249AD /* SSGeometry.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -313,6 +320,7 @@
 				5589591815CBCADB000EA3C4 /* SSContext.m in Sources */,
 				558959E115CBDBCA000EA3C4 /* SSSetTimer.m in Sources */,
 				558959F215CBE032000EA3C4 /* SSScaleFactor.m in Sources */,
+				5578C8DB15D9F25200C249AD /* SSGeometry.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

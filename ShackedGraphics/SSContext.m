@@ -1,4 +1,4 @@
-#include "SSContext.h"
+#import "SSContext.h"
 
 CGContextRef SSContextCreateColor(size_t width, size_t height)
 {
@@ -10,6 +10,8 @@ CGContextRef SSContextCreateColor(size_t width, size_t height)
         CGColorSpaceRef colorSpace = SSCFAutorelease(CGColorSpaceCreateWithName(kCGColorSpaceGenericRGB));
     #elif SSTargetIOS
         CGColorSpaceRef colorSpace = SSCFAutorelease(CGColorSpaceCreateDeviceRGB());
+    #else
+        #error Unknown target!
     #endif
     
         SSAssertOrRecover(colorSpace, return nil);
@@ -31,6 +33,8 @@ CGContextRef SSContextCreateGray(size_t width, size_t height)
         CGColorSpaceRef colorSpace = SSCFAutorelease(CGColorSpaceCreateWithName(kCGColorSpaceGenericGray));
     #elif SSTargetIOS
         CGColorSpaceRef colorSpace = SSCFAutorelease(CGColorSpaceCreateDeviceGray());
+    #else
+        #error Unknown target!
     #endif
     
         SSAssertOrRecover(colorSpace, return nil);

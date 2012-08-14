@@ -1,8 +1,12 @@
 #import <Foundation/Foundation.h>
+#import "ShackedFoundation.h"
+
 #if SSTargetOSX
-#import <ApplicationServices/ApplicationServices.h>
+    #import <ApplicationServices/ApplicationServices.h>
 #elif SSTargetIOS
-#import <CoreGraphics/CoreGraphics.h>
+    #import <CoreGraphics/CoreGraphics.h>
+#else
+    #error Unknown target!
 #endif
 
 CGAffineTransform SSTransformForFlippedRect(CGRect rect, BOOL x, BOOL y);

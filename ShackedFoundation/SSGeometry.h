@@ -1,4 +1,6 @@
 #import <Foundation/Foundation.h>
+#import "SSAssert.h"
+#import "SSUtilities.h"
 
 typedef struct SSSize
 {
