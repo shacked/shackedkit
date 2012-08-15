@@ -3,6 +3,7 @@
 #endif
 
 #import "SSSetTimer.h"
+#import "SSUtilities.h"
 
 void SSSetTimer(NSTimer **oldTimer, NSTimer *newTimer)
 {

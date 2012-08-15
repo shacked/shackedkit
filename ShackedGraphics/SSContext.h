@@ -1,13 +1,6 @@
 #import <Foundation/Foundation.h>
+#import <CoreGraphics/CoreGraphics.h>
 #import "ShackedFoundation.h"
-
-#if SSTargetOSX
-    #import <ApplicationServices/ApplicationServices.h>
-#elif SSTargetIOS
-    #import <CoreGraphics/CoreGraphics.h>
-#else
-    #error Unknown target!
-#endif
 
 CGContextRef SSContextCreateColor(size_t width, size_t height);
 CGContextRef SSContextCreateGray(size_t width, size_t height);
