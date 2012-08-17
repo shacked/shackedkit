@@ -22,39 +22,44 @@ static NSMutableDictionary *gEntries = nil;
 
 + (id)sharedInstanceForClass: (Class)cls
 {
-    id result = nil;
-    
     @synchronized(gEntries)
     {
-        result = [gEntries objectForKey: (id)cls];
+        id result = [gEntries objectForKey: (id)cls];
         
         if (!result)
         {
-            result = [[cls alloc] initSingleton];
+            result = [[cls alloc] initWithCallToSuper: YES];
+                SSAssertOrRecover(result, return nil);
             
-            if (result)
-                [gEntries setObject: result forKey: (id)cls];
+            /* We set the entry in our map *before* we callout to -initSingleton, so that attempts to acquired the shared
+               instance of 'cls' within -initSingleton return a value. */
+            [gEntries setObject: result forKey: (id)cls];
+            [result initSingleton];
         }
+        
+        return result;
     }
-    
-    return result;
 }
 
 - (id)init
 {
-    /* Here we'll simply return the object that would have been supplied if the caller invoked [ReceiverClass sharedInstance]. */
         /* Verify that -init hasn't been overridden by a subclass (SSSingleton subclasses must use -initSingleton.) */
         SSAssertOrBail([SSSingleton instanceMethodForSelector: @selector(init)] == [[self class] instanceMethodForSelector: @selector(init)]);
     
-    return [[self class] sharedInstance];
+    return [self initWithCallToSuper: NO];
 }
 
-- (id)initSingleton
+- (id)initWithCallToSuper: (BOOL)callToSuper
 {
-    if (!(self = [super init]))
-        return nil;
+    if (callToSuper)
+        return [super init];
     
-    return self;
+    else
+        return [[self class] sharedInstance];
+}
+
+- (void)initSingleton
+{
 }
 
 @end
