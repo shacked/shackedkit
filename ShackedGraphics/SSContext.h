@@ -2,8 +2,7 @@
 #import <CoreGraphics/CoreGraphics.h>
 #import "ShackedFoundation.h"
 
-CGContextRef SSContextCreateColor(size_t width, size_t height);
-CGContextRef SSContextCreateGray(size_t width, size_t height);
-
-void SSContextMask(CGContextRef context, void (^drawMaskBlock)(CGContextRef context));
-CGImageRef SSImageCreate(size_t width, size_t height, void (^drawContentBlock)(CGContextRef context));
+/* If colorSpace == nil, a generic RGB color space is used. (In the case of iOS, this is the device RGB color space.) */
+CGContextRef SSContextCreateColor(SSSize size, CGColorSpaceRef colorSpace);
+CGContextRef SSContextCreateGray(SSSize size, CGColorSpaceRef colorSpace);
+CGImageRef SSImageCreate(SSSize size, CGColorSpaceRef colorSpace, void (^drawContentBlock)(CGContextRef context));

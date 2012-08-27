@@ -1,78 +1,63 @@
 #import "SSContext.h"
 
-CGContextRef SSContextCreateColor(size_t width, size_t height)
+CGContextRef SSContextCreateColor(SSSize size, CGColorSpaceRef colorSpace)
 {
-        NSCParameterAssert(width);
-        NSCParameterAssert(height);
+        NSCParameterAssert(SSSizeValid(size));
     
-    /* Generic RGB colorspace isn't available on iOS. */
-    #if SSTargetOSX
-        CGColorSpaceRef colorSpace = SSCFAutorelease(CGColorSpaceCreateWithName(kCGColorSpaceGenericRGB));
-    #elif SSTargetIOS
-        CGColorSpaceRef colorSpace = SSCFAutorelease(CGColorSpaceCreateDeviceRGB());
-    #else
-        #error Unknown target!
-    #endif
+    if (!colorSpace)
+    {
+        /* Generic RGB colorspace isn't available on iOS. */
+        #if SSTargetOSX
+            colorSpace = SSCFAutorelease(CGColorSpaceCreateWithName(kCGColorSpaceGenericRGB));
+        #elif SSTargetIOS
+            colorSpace = SSCFAutorelease(CGColorSpaceCreateDeviceRGB());
+        #else
+            #error Unknown target!
+        #endif
+    }
     
+        /* At this point, we must have a color space */
         SSAssertOrRecover(colorSpace, return nil);
     
-    CGContextRef result = CGBitmapContextCreate(nil, width, height, 8, (width * 4),
+    CGContextRef result = CGBitmapContextCreate(nil, size.width, size.height, 8, (size.width * 4),
         colorSpace, (kCGBitmapByteOrderDefault | kCGImageAlphaPremultipliedLast));
         SSAssertOrRecover(result, return nil);
     
     return result;
 }
 
-CGContextRef SSContextCreateGray(size_t width, size_t height)
+CGContextRef SSContextCreateGray(SSSize size, CGColorSpaceRef colorSpace)
 {
-        NSCParameterAssert(width);
-        NSCParameterAssert(height);
+        NSCParameterAssert(SSSizeValid(size));
     
-    /* Generic gray colorspace isn't available on iOS. */
-    #if SSTargetOSX
-        CGColorSpaceRef colorSpace = SSCFAutorelease(CGColorSpaceCreateWithName(kCGColorSpaceGenericGray));
-    #elif SSTargetIOS
-        CGColorSpaceRef colorSpace = SSCFAutorelease(CGColorSpaceCreateDeviceGray());
-    #else
-        #error Unknown target!
-    #endif
+    if (!colorSpace)
+    {
+        /* Generic gray colorspace isn't available on iOS. */
+        #if SSTargetOSX
+            colorSpace = SSCFAutorelease(CGColorSpaceCreateWithName(kCGColorSpaceGenericGray));
+        #elif SSTargetIOS
+            colorSpace = SSCFAutorelease(CGColorSpaceCreateDeviceGray());
+        #else
+            #error Unknown target!
+        #endif
+    }
     
+        /* At this point, we must have a color space */
         SSAssertOrRecover(colorSpace, return nil);
     
-    CGContextRef result = CGBitmapContextCreate(nil, width, height, 8, (width * 1),
+    CGContextRef result = CGBitmapContextCreate(nil, size.width, size.height, 8, (size.width * 1),
         colorSpace, (kCGBitmapByteOrderDefault | kCGImageAlphaNone));
         SSAssertOrRecover(result, return nil);
     
     return result;
 }
 
-void SSContextMask(CGContextRef context, void (^drawMaskBlock)(CGContextRef context))
+CGImageRef SSImageCreate(SSSize size, CGColorSpaceRef colorSpace, void (^drawContentBlock)(CGContextRef context))
 {
-        NSCParameterAssert(context);
-        NSCParameterAssert(drawMaskBlock);
-    
-    CGRect maskRect = CGContextGetClipBoundingBox(context);
-    size_t maskWidth = lround(maskRect.size.width);
-    size_t maskHeight = lround(maskRect.size.height);
-    CGContextRef maskContext = SSCFAutorelease(SSContextCreateGray(maskWidth, maskHeight));
-        SSAssertOrRecover(maskContext, return);
-    
-    CGContextClearRect(maskContext, CGRectMake(0, 0, maskWidth, maskHeight));
-    drawMaskBlock(maskContext);
-    
-    CGImageRef maskImage = SSCFAutorelease(CGBitmapContextCreateImage(maskContext));
-        SSAssertOrRecover(maskImage, return);
-    
-    CGContextClipToMask(context, maskRect, maskImage);
-}
-
-CGImageRef SSImageCreate(size_t width, size_t height, void (^drawContentBlock)(CGContextRef context))
-{
-        NSCParameterAssert(width);
-        NSCParameterAssert(height);
+        NSCParameterAssert(SSSizeValid(size));
         NSCParameterAssert(drawContentBlock);
     
-    CGContextRef context = SSCFAutorelease(SSContextCreateColor(width, height));
+    CGContextRef context = SSCFAutorelease(SSContextCreateColor(size, colorSpace));
         SSAssertOrRecover(context, return nil);
     
     drawContentBlock(context);
