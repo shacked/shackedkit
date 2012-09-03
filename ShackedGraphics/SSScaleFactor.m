@@ -1,4 +1,5 @@
 #import "SSScaleFactor.h"
+#import "ShackedFoundation.h"
 
 CGFloat SSScaleFactor(SSScaleFactorType type, CGSize elementSize, CGSize containerSize)
 {

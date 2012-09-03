@@ -43,27 +43,27 @@
 #define SSCapMin SSMax
 #define SSCapMax SSMin
 
-#define SSCapRange(value, min, max)                                         \
+#define SSCapRange(min, max, value)                                         \
 ({                                                                          \
-    __typeof__(value) __value = (value);                                    \
     __typeof__(min) __min = (min);                                          \
     __typeof__(max) __max = (max);                                          \
+    __typeof__(value) __value = (value);                                    \
     __value <= __min ? __min : (__value >= __max ? __max : __value);        \
 })
 
-#define SSValueInRange(value, min, max)         \
+#define SSValueInRange(min, max, value)         \
 ({                                              \
-    __typeof__(value) __value = (value);        \
     __typeof__(min) __min = (min);              \
     __typeof__(max) __max = (max);              \
+    __typeof__(value) __value = (value);        \
     __value >= __min && __value <=  __max;      \
 })
 
-#define SSValueInRangeExclusive(value, min, max)      \
+#define SSValueInRangeExclusive(min, max, value)      \
 ({                                                    \
-    __typeof__(value) __value = (value);              \
     __typeof__(min) __min = (min);                    \
     __typeof__(max) __max = (max);                    \
+    __typeof__(value) __value = (value);              \
     __value >= __min && __value <  __max;             \
 })
 

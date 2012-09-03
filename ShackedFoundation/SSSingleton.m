@@ -31,7 +31,7 @@ static NSMutableDictionary *gEntries = nil;
             result = [[cls alloc] initWithCallToSuper: YES];
                 SSAssertOrRecover(result, return nil);
             
-            /* We set the entry in our map *before* we callout to -initSingleton, so that attempts to acquired the shared
+            /* We set the entry in our map *before* we callout to -initSingleton, so that attempts to acquire the shared
                instance of 'cls' within -initSingleton return a value. */
             [gEntries setObject: result forKey: (id)cls];
             [result initSingleton];

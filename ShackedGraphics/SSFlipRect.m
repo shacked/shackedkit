@@ -1,4 +1,5 @@
 #import "SSFlipRect.h"
+#import "ShackedFoundation.h"
 
 CGAffineTransform SSTransformForFlippedRect(CGRect rect, BOOL x, BOOL y)
 {
