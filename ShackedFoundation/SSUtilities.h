@@ -7,6 +7,7 @@
 #define SSStringify(a) #a
 #define SSStringConstExtern(constantName) extern NSString *const constantName;
 #define SSStringConst(constantName) NSString *const constantName = @SSStringify(constantName)
+#define SSUniquePointerConst(constantName) const void *const constantName = (const void *const)&constantName
 #define SSStaticArrayCount(array) (sizeof(array) / sizeof(*array))
 #define SSEqualBools(a, b) ((bool)(a) == (bool)(b))
 #define SSRaise(message, ...) [NSException raise: NSGenericException format: (message), ##__VA_ARGS__]

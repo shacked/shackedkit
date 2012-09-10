@@ -11,8 +11,7 @@
 #import "SSCFAutorelease.h"
 
 static SEL kObserveeSwizzledDeallocSelector = nil;
-/* Key used for objc associated-objects API. Not using 'com.shacked' namespacing because it's used as a pointer value. */
-static SSStringConst(kObservationsMapKey);
+static SSUniquePointerConst(kObservationsMapKey);
 static NSLock *gMasterLock = nil;
 
 @implementation SSObservation
