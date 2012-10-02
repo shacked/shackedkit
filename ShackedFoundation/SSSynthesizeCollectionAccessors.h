@@ -9,7 +9,7 @@
         return [_##lowercasePropertyName objectAtIndex: index];                                                                   \
     }                                                                                                                             \
                                                                                                                                   \
-    - (id)##lowercasePropertyName##AtIndexes: (NSIndexSet *)indexes                                                               \
+    - (id)lowercasePropertyName##AtIndexes: (NSIndexSet *)indexes                                                               \
     {                                                                                                                             \
         return [_##lowercasePropertyName objectsAtIndexes: indexes];                                                              \
     }                                                                                                                             \
