@@ -9,14 +9,14 @@
         return [_##lowercasePropertyName objectAtIndex: index];                                                                   \
     }                                                                                                                             \
                                                                                                                                   \
-    - (id)lowercasePropertyName##AtIndexes: (NSIndexSet *)indexes                                                               \
+    - (id)lowercasePropertyName##AtIndexes: (NSIndexSet *)indexes                                                                 \
     {                                                                                                                             \
         return [_##lowercasePropertyName objectsAtIndexes: indexes];                                                              \
     }                                                                                                                             \
                                                                                                                                   \
     - (void)get##uppercasePropertyName: (id __unsafe_unretained [])outObjects range: (NSRange)range                               \
     {                                                                                                                             \
-        return [_##lowercasePropertyName getObjects: outObjects range: range];                                                    \
+        [_##lowercasePropertyName getObjects: outObjects range: range];                                                           \
     }                                                                                                                             \
                                                                                                                                   \
     - (void)insertObject: (id)object in##uppercasePropertyName##AtIndex: (NSUInteger)index                                        \
