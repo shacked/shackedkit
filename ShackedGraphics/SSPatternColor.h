@@ -2,4 +2,4 @@
 #import <CoreGraphics/CoreGraphics.h>
 #import "ShackedFoundation.h"
 
-CGColorRef SSPatternColorCreate(CGSize size, void (^drawPatternBlock)(CGContextRef context));
+CGColorRef SSPatternColorCreate(CGSize size, CGFloat backingScaleFactor, void (^drawPatternBlock)(CGContextRef context));

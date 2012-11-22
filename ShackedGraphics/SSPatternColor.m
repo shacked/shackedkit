@@ -15,7 +15,7 @@ static void releaseInfoCallback(void *info)
     CFRelease(info);
 }
 
-CGColorRef SSPatternColorCreate(CGSize size, void (^drawPatternBlock)(CGContextRef context))
+CGColorRef SSPatternColorCreate(CGSize size, CGFloat backingScaleFactor, void (^drawPatternBlock)(CGContextRef context))
 {
     static const struct CGPatternCallbacks kPatternCallbacks =
     {
@@ -28,13 +28,22 @@ CGColorRef SSPatternColorCreate(CGSize size, void (^drawPatternBlock)(CGContextR
     
         NSCParameterAssert(drawPatternBlock);
     
-    void (^drawPatternBlockCopy)(CGContextRef context) = [drawPatternBlock copy];
-    CGPatternRef pattern = SSCFAutorelease(CGPatternCreate((__bridge void *)drawPatternBlockCopy, CGRectMake(0, 0, size.width, size.height), CGAffineTransformIdentity,
-        size.width, size.height, kCGPatternTilingNoDistortion, YES, &kPatternCallbacks));
+    void (^drawPatternTrampolineBlock)(CGContextRef context) =
+        ^(CGContextRef context)
+        {
+            CGContextScaleCTM(context, backingScaleFactor, backingScaleFactor);
+            drawPatternBlock(context);
+        };
+    
+    CGPatternRef pattern = SSCFAutorelease(CGPatternCreate((__bridge void *)drawPatternTrampolineBlock,
+        CGRectMake(0, 0, size.width * backingScaleFactor, size.height * backingScaleFactor),
+        CGAffineTransformMakeScale(1.0 / backingScaleFactor, 1.0 / backingScaleFactor),
+        size.width * backingScaleFactor,
+        size.height * backingScaleFactor, kCGPatternTilingNoDistortion, YES, &kPatternCallbacks));
         SSAssertOrRecover(pattern, return nil);
     
     /* If we get here, the pattern was created and therefore we need to retain the block on behalf of it */
-    CFRetain((__bridge void *)drawPatternBlockCopy);
+    CFRetain((__bridge void *)drawPatternTrampolineBlock);
     
     CGColorSpaceRef patternColorSpace = SSCFAutorelease(CGColorSpaceCreatePattern(nil));
         SSAssertOrRecover(patternColorSpace, return nil);
