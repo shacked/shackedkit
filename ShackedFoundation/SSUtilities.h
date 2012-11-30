@@ -4,6 +4,10 @@
 #define SSTargetOSX (TARGET_OS_MAC && !TARGET_OS_IPHONE)
 #define SSTargetIOS (TARGET_OS_MAC && TARGET_OS_IPHONE)
 
+#define SSTry SSTry
+#define SSFail SSFail
+#define SSFinish SSFinish
+
 #define SSStringify(a) #a
 #define SSStringConstExtern(constantName) extern NSString *const constantName;
 #define SSStringConst(constantName) NSString *const constantName = @SSStringify(constantName)
