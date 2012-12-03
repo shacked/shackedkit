@@ -20,7 +20,7 @@ CGContextRef SSContextCreateColor(SSSize size, CGColorSpaceRef colorSpace)
         SSAssertOrRecover(colorSpace, return nil);
     
     CGContextRef result = CGBitmapContextCreate(nil, size.width, size.height, 8, (size.width * 4),
-        colorSpace, (kCGBitmapByteOrderDefault | kCGImageAlphaPremultipliedLast));
+        colorSpace, (kCGImageAlphaPremultipliedFirst | kCGBitmapByteOrder32Host));
         SSAssertOrRecover(result, return nil);
     
     return result;
