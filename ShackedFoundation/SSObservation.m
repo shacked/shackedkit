@@ -17,11 +17,11 @@ static NSLock *gMasterLock = nil;
 @implementation SSObservation
 {
     @public
-    int32_t mInvalidated;
-    NSObject *mObservee;
-    NSString *mKeyPath;
-    NSKeyValueObservingOptions mOptions;
-    void (^mHandlerBlock)(SSObservation *observation, NSDictionary *change);
+    int32_t _invalidated;
+    NSObject *_observee;
+    NSString *_keyPath;
+    NSKeyValueObservingOptions _options;
+    void (^_handlerBlock)(SSObservation *observation, NSDictionary *change);
 }
 
 #pragma mark - Creation -
@@ -51,39 +51,39 @@ static NSLock *gMasterLock = nil;
     if (!(self = [super init]))
         return nil;
     
-    mInvalidated = NO;
-    mObservee = observee; /* Weak reference to observee! */
-    mKeyPath = [keyPath retain];
-    mHandlerBlock = [handlerBlock copy];
-    mOptions = options;
+    _invalidated = NO;
+    _observee = observee; /* Weak reference to observee! */
+    _keyPath = [keyPath retain];
+    _handlerBlock = [handlerBlock copy];
+    _options = options;
     
-    NSMutableDictionary *observationsMap = lockWithObserveeAndGetObservationsMap(mObservee, YES);
+    NSMutableDictionary *observationsMap = lockWithObserveeAndGetObservationsMap(_observee, YES);
             /* Grave error if we didn't acquire the lock */
             SSAssertOrBail(observationsMap);
         
-        CFMutableSetRef observations = (CFMutableSetRef)[observationsMap objectForKey: mKeyPath];
+        CFMutableSetRef observations = (CFMutableSetRef)[observationsMap objectForKey: _keyPath];
             /* Grave error state if this assertion fails */
             SSAssertOrBail(!observations || CFSetGetCount(observations) > 0);
         
         if (!observations)
         {
             observations = SSCFAutorelease(CFSetCreateMutable(nil, 0, nil));
-            [observationsMap setObject: (id)observations forKey: mKeyPath];
+            [observationsMap setObject: (id)observations forKey: _keyPath];
         }
         
         CFSetAddValue(observations, self);
-        swizzleDeallocForObserveeClass([mObservee class]);
+        swizzleDeallocForObserveeClass([_observee class]);
         /* Mask the 'Initial' KVO option to prevent us from calling-out while the lock is held */
-        [mObservee addObserver: (id)[SSObservation class] forKeyPath: mKeyPath options: (mOptions & ~NSKeyValueObservingOptionInitial) context: self];
-    unlockWithObservee(mObservee);
+        [_observee addObserver: (id)[SSObservation class] forKeyPath: _keyPath options: (_options & ~NSKeyValueObservingOptionInitial) context: self];
+    unlockWithObservee(_observee);
     
     /* Emulate the 'Initial' KVO option now that we've relinquished the lock and it's safe to call out. */
-    if (mOptions & NSKeyValueObservingOptionInitial)
+    if (_options & NSKeyValueObservingOptionInitial)
     {
         NSMutableDictionary *change = [NSMutableDictionary dictionaryWithObject: [NSNumber numberWithUnsignedInteger: NSKeyValueChangeSetting] forKey: NSKeyValueChangeKindKey];
-        if (mOptions & NSKeyValueObservingOptionNew)
-            [change setObject: SSValueOrFallback([mObservee valueForKeyPath: mKeyPath], [NSNull null]) forKey: NSKeyValueChangeNewKey];
-        mHandlerBlock(self, change);
+        if (_options & NSKeyValueObservingOptionNew)
+            [change setObject: SSValueOrFallback([_observee valueForKeyPath: _keyPath], [NSNull null]) forKey: NSKeyValueChangeNewKey];
+        _handlerBlock(self, change);
     }
     
     return self;
@@ -96,42 +96,42 @@ static NSLock *gMasterLock = nil;
 
 - (void)invalidateWithObservationsMap: (NSMutableDictionary *)observationsMap
 {
-    /* We use the observationsMap as a flag as well as for it's content; if observationsMap == nil, we consider that as meaning
-       'acquire the lock for our observee. If observationsMap != nil, then we don't acquire the lock. See
-       handleObserveeDeallocation() for the rationale. */
-        SSConfirmOrPerform(OSAtomicCompareAndSwap32(NO, YES, &mInvalidated), return);
+    /* We use the observationsMap as a flag as well as for its content; if observationsMap == nil, then we need to acquire the
+       lock for our observee. If observationsMap != nil, then we don't acquire the lock. See handleObserveeDeallocation()
+       for the rationale. */
+        SSConfirmOrPerform(OSAtomicCompareAndSwap32(NO, YES, &_invalidated), return);
     
     /* Perform in reverse of -init! */
     /* If we weren't given an observations map, we acquire the lock so that we can get it */
     BOOL acquireLock = !observationsMap;
     if (acquireLock)
-        observationsMap = lockWithObserveeAndGetObservationsMap(mObservee, NO);
+        observationsMap = lockWithObserveeAndGetObservationsMap(_observee, NO);
     
         /* Grave error if we don't have an observations map at this point, or if the observations map is empty */
         SSAssertOrBail(observationsMap && [observationsMap count]);
     
-    [mObservee removeObserver: (id)[SSObservation class] forKeyPath: mKeyPath context: self];
+    [_observee removeObserver: (id)[SSObservation class] forKeyPath: _keyPath context: self];
     
-    CFMutableSetRef observations = (CFMutableSetRef)[observationsMap objectForKey: mKeyPath];
+    CFMutableSetRef observations = (CFMutableSetRef)[observationsMap objectForKey: _keyPath];
         /* Grave error if this assertion fails */
         SSAssertOrBail(observations && CFSetGetCount(observations) > 0);
     
     CFSetRemoveValue(observations, self);
     if (!CFSetGetCount(observations))
-        [observationsMap removeObjectForKey: mKeyPath];
+        [observationsMap removeObjectForKey: _keyPath];
     
     if (acquireLock)
-        unlockWithObservee(mObservee);
+        unlockWithObservee(_observee);
     
-    mOptions = 0;
+    _options = 0;
     
-    [mHandlerBlock release],
-    mHandlerBlock = nil;
+    [_handlerBlock release],
+    _handlerBlock = nil;
     
-    [mKeyPath release],
-    mKeyPath = nil;
+    [_keyPath release],
+    _keyPath = nil;
     
-    mObservee = nil;
+    _observee = nil;
 }
 
 - (void)dealloc
@@ -283,11 +283,11 @@ static void swizzleDeallocForObserveeClass(Class observeeClass)
     if (observationsMap)
     {
         /* Check if 'context' (a possibly-deallocated SSObservation) exists in the observations set for the given key path.
-           If so, it's still live and we can safely access its mHandlerBlock while we hold the lock, since we know that it
+           If so, it's still live and we can safely access its _handlerBlock while we hold the lock, since we know that it
            hasn't started its invalidation yet (which happens when it's deallocated.) */
         CFSetRef observations = (CFSetRef)[observationsMap objectForKey: keyPath];
         if (observations && CFSetContainsValue(observations, context))
-            handlerBlock = [[((SSObservation *)context)->mHandlerBlock retain] autorelease];
+            handlerBlock = [[((SSObservation *)context)->_handlerBlock retain] autorelease];
         unlockWithObservee(observee);
     }
     
