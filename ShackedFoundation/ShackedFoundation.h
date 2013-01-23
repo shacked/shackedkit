@@ -6,4 +6,5 @@
 #import "SSSetTimer.h"
 #import "SSSingleton.h"
 #import "SSSynthesizeCollectionAccessors.h"
+#import "SSTime.h"
 #import "SSUtilities.h"

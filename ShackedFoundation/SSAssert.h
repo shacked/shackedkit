@@ -1,4 +1,5 @@
 #import <Foundation/Foundation.h>
+#import "SSUtilities.h"
 
 #define SSAssertOrRecover(condition, recoveryAction)                                                                                                                                  \
 ({                                                                                                                                                                                    \
