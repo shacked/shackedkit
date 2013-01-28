@@ -72,6 +72,38 @@
     __value >= __min && __value <  __max;             \
 })
 
+#if __has_feature(objc_arc)
+
+    #define SSSetTimer(oldTimer, newTimer)                 \
+    ({                                                     \
+        __typeof__(oldTimer) __oldTimer = (oldTimer);      \
+        NSTimer *__newTimer = (newTimer);                  \
+                                                           \
+        if (*__oldTimer != __newTimer)                     \
+        {                                                  \
+            [*__oldTimer invalidate];                      \
+            *__oldTimer = __newTimer;                      \
+        }                                                  \
+    })
+
+#else
+
+    #define SSSetTimer(oldTimer, newTimer)                 \
+    ({                                                     \
+        __typeof__(oldTimer) __oldTimer = (oldTimer);      \
+        NSTimer *__newTimer = (newTimer);                  \
+                                                           \
+        if (*__oldTimer != __newTimer)                     \
+        {                                                  \
+            [__newTimer retain];                           \
+            [*__oldTimer invalidate];                      \
+            [*__oldTimer release];                         \
+            *__oldTimer = __newTimer;                      \
+        }                                                  \
+    })
+
+#endif
+
 // http://www.wilshipley.com/blog/2005/10/pimp-my-code-interlude-free-code.html
 static inline BOOL IsEmpty(id thing) {
 	return thing == nil ||
