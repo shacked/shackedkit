@@ -30,7 +30,12 @@ uint64_t SSTimeElapsedNanoseconds(SSTime startTime, SSTime endTime)
     return (endTime - startTime) * kTimebaseInfo->numer / kTimebaseInfo->denom;
 }
 
+double SSTimeElapsedSeconds(SSTime startTime, SSTime endTime)
+{
+    return (double)SSTimeElapsedNanoseconds(startTime, endTime) / 1e9;
+}
+
 double SSTimeElapsedSecondsSince(SSTime startTime)
 {
-    return (double)SSTimeElapsedNanoseconds(startTime, SSTimeCurrentTime()) / 1e9;
+    return SSTimeElapsedSeconds(startTime, SSTimeCurrentTime());
 }
