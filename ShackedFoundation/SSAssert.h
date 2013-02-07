@@ -12,17 +12,19 @@
 
 #define SSAssertOrBailWithNote(condition, note, ...)                                                                                                                                            \
 ({                                                                                                                                                                                              \
-    NSString *__note = (note);                                                                                                                                                                  \
     if (!(condition))                                                                                                                                                                           \
-        SSAssertHandle(__FILE__, (uintmax_t)__LINE__, __PRETTY_FUNCTION__, SSStringify(condition), (__note ? [[NSString stringWithFormat: __note, ##__VA_ARGS__] UTF8String] : nil), YES);      \
+        SSAssertHandle(__FILE__, (uintmax_t)__LINE__, __PRETTY_FUNCTION__, SSStringify(condition), [[NSString stringWithFormat: (note), ##__VA_ARGS__] UTF8String], YES);                       \
 })
 
-#define SSAssertOrBail(condition) SSAssertOrBailWithNote(condition, nil)
+#define SSAssertOrBail(condition)                                                                                                                                                               \
+({                                                                                                                                                                                              \
+    if (!(condition))                                                                                                                                                                           \
+        SSAssertHandle(__FILE__, (uintmax_t)__LINE__, __PRETTY_FUNCTION__, SSStringify(condition), nil, YES);                                                                                   \
+})
 
 #define SSAssertLog(note, ...)                                                                                                                                                                  \
 ({                                                                                                                                                                                              \
-    NSString *__note = (note);                                                                                                                                                                  \
-    SSAssertHandle(__FILE__, (uintmax_t)__LINE__, __PRETTY_FUNCTION__, nil, (__note ? [[NSString stringWithFormat: __note, ##__VA_ARGS__] UTF8String] : nil), NO);                              \
+    SSAssertHandle(__FILE__, (uintmax_t)__LINE__, __PRETTY_FUNCTION__, nil, [[NSString stringWithFormat: (note), ##__VA_ARGS__] UTF8String], NO);                                               \
 })
 
 void SSAssertHandle(const char *file, uintmax_t line, const char *function, const char *assertion, const char *note, BOOL raiseException);
