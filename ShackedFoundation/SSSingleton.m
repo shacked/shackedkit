@@ -15,12 +15,12 @@ static NSMutableDictionary *gEntries = nil;
     });
 }
 
-+ (id)sharedInstance
++ (instancetype)sharedInstance
 {
     return [self sharedInstanceForClass: self];
 }
 
-+ (id)sharedInstanceForClass: (Class)cls
++ (instancetype)sharedInstanceForClass: (Class)cls
 {
     @synchronized(gEntries)
     {
@@ -41,7 +41,7 @@ static NSMutableDictionary *gEntries = nil;
     }
 }
 
-- (id)init
+- (instancetype)init
 {
         /* Verify that -init hasn't been overridden by a subclass (SSSingleton subclasses must use -initSingleton.) */
         SSAssertOrBail([SSSingleton instanceMethodForSelector: @selector(init)] == [[self class] instanceMethodForSelector: @selector(init)]);
@@ -49,7 +49,7 @@ static NSMutableDictionary *gEntries = nil;
     return [self initWithCallToSuper: NO];
 }
 
-- (id)initWithCallToSuper: (BOOL)callToSuper
+- (instancetype)initWithCallToSuper: (BOOL)callToSuper
 {
     if (callToSuper)
         return [super init];
