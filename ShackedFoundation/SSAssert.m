@@ -20,5 +20,5 @@ void SSAssertHandle(const char *file, uintmax_t line, const char *function, cons
     fprintf(stderr, "%s", [message UTF8String]);
     
     if (raiseException)
-        [NSException raise: NSInternalInconsistencyException format: message];
+        [NSException raise: NSInternalInconsistencyException format: @"%@", message];
 }
