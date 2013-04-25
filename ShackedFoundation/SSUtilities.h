@@ -61,7 +61,7 @@
     __typeof__(min) __min = (min);              \
     __typeof__(max) __max = (max);              \
     __typeof__(value) __value = (value);        \
-    __value >= __min && __value <=  __max;      \
+    __value >= __min && __value <= __max;       \
 })
 
 #define SSValueInRangeExclusive(min, max, value)      \
@@ -69,7 +69,7 @@
     __typeof__(min) __min = (min);                    \
     __typeof__(max) __max = (max);                    \
     __typeof__(value) __value = (value);              \
-    __value >= __min && __value <  __max;             \
+    __value >= __min && __value < __max;              \
 })
 
 #if __has_feature(objc_arc)
