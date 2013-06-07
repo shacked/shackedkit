@@ -15,6 +15,8 @@
 #define SSStaticArrayCount(array) (sizeof(array) / sizeof(*array))
 #define SSEqualBools(a, b) ((bool)(a) == (bool)(b))
 #define SSRaise(message, ...) [NSException raise: NSGenericException format: (message), ##__VA_ARGS__]
+#define SSMakeWeakSelf() __weak __typeof__(self) weakSelf = self
+#define SSMakeStrongSelf() __typeof__(self) strongSelf = weakSelf
 
 #define SSConfirmOrPerform(condition, action)      \
 ({                                                 \
