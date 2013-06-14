@@ -1,7 +1,5 @@
 #import <Foundation/Foundation.h>
 #import <CoreGraphics/CoreGraphics.h>
-#import "SSAssert.h"
-#import "SSUtilities.h"
 
 typedef struct SSSize
 {
@@ -34,11 +32,11 @@ static inline CGSize SSSizeToCGSize(SSSize size)
 
 static inline SSSize SSSizeFromCGSize(CGSize size)
 {
-    return SSSizeMake(SSCapMin(0, round(size.width)), SSCapMin(0, round(size.height)));
+    return SSSizeMake(EBCapMin(0, round(size.width)), EBCapMin(0, round(size.height)));
 }
 
-SSStringConstExtern(SSSizeWidthKey);
-SSStringConstExtern(SSSizeHeightKey);
+EBMakeStringConstExtern(SSSizeWidthKey);
+EBMakeStringConstExtern(SSSizeHeightKey);
 static inline NSDictionary *SSSizeToDictionary(SSSize size)
 {
     return [NSDictionary dictionaryWithObjectsAndKeys:
@@ -51,9 +49,9 @@ static inline SSSize SSSizeFromDictionary(NSDictionary *sizeDictionary)
         NSCParameterAssert(sizeDictionary);
     
     NSNumber *widthNumber = [sizeDictionary objectForKey: SSSizeWidthKey];
-        SSAssertOrRecover(widthNumber, return SSSizeNull);
+        EBAssertOrRecover(widthNumber, return SSSizeNull);
     NSNumber *heightNumber = [sizeDictionary objectForKey: SSSizeHeightKey];
-        SSAssertOrRecover(heightNumber, return SSSizeNull);
+        EBAssertOrRecover(heightNumber, return SSSizeNull);
     
     return SSSizeMake([widthNumber unsignedIntegerValue], [heightNumber unsignedIntegerValue]);;
 }

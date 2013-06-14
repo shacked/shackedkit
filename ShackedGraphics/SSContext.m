@@ -7,9 +7,9 @@ CGContextRef SSContextCreateColor(SSSize size, CGColorSpaceRef colorSpace)
     if (!colorSpace)
     {
         /* Generic RGB colorspace isn't available on iOS. */
-        #if SSTargetOSX
+        #if EBTargetOSX
             colorSpace = SSCFAutorelease(CGColorSpaceCreateWithName(kCGColorSpaceGenericRGB));
-        #elif SSTargetIOS
+        #elif EBTargetIOS
             colorSpace = SSCFAutorelease(CGColorSpaceCreateDeviceRGB());
         #else
             #error Unknown target!
@@ -17,11 +17,11 @@ CGContextRef SSContextCreateColor(SSSize size, CGColorSpaceRef colorSpace)
     }
     
         /* At this point, we must have a color space */
-        SSAssertOrRecover(colorSpace, return nil);
+        EBAssertOrRecover(colorSpace, return nil);
     
     CGContextRef result = CGBitmapContextCreate(nil, size.width, size.height, 8, (size.width * 4),
         colorSpace, (kCGImageAlphaPremultipliedFirst | kCGBitmapByteOrder32Host));
-        SSAssertOrRecover(result, return nil);
+        EBAssertOrRecover(result, return nil);
     
     return result;
 }
@@ -33,9 +33,9 @@ CGContextRef SSContextCreateGray(SSSize size, CGColorSpaceRef colorSpace)
     if (!colorSpace)
     {
         /* Generic gray colorspace isn't available on iOS. */
-        #if SSTargetOSX
+        #if EBTargetOSX
             colorSpace = SSCFAutorelease(CGColorSpaceCreateWithName(kCGColorSpaceGenericGray));
-        #elif SSTargetIOS
+        #elif EBTargetIOS
             colorSpace = SSCFAutorelease(CGColorSpaceCreateDeviceGray());
         #else
             #error Unknown target!
@@ -43,11 +43,11 @@ CGContextRef SSContextCreateGray(SSSize size, CGColorSpaceRef colorSpace)
     }
     
         /* At this point, we must have a color space */
-        SSAssertOrRecover(colorSpace, return nil);
+        EBAssertOrRecover(colorSpace, return nil);
     
     CGContextRef result = CGBitmapContextCreate(nil, size.width, size.height, 8, (size.width * 1),
         colorSpace, (kCGBitmapByteOrderDefault | kCGImageAlphaNone));
-        SSAssertOrRecover(result, return nil);
+        EBAssertOrRecover(result, return nil);
     
     return result;
 }
@@ -58,12 +58,12 @@ CGImageRef SSImageCreate(SSSize size, CGColorSpaceRef colorSpace, void (^drawCon
         NSCParameterAssert(drawContentBlock);
     
     CGContextRef context = SSCFAutorelease(SSContextCreateColor(size, colorSpace));
-        SSAssertOrRecover(context, return nil);
+        EBAssertOrRecover(context, return nil);
     
     drawContentBlock(context);
     
     CGImageRef result = CGBitmapContextCreateImage(context);
-        SSAssertOrRecover(result, return nil);
+        EBAssertOrRecover(result, return nil);
     
     return result;
 }

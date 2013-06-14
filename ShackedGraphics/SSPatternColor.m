@@ -40,17 +40,17 @@ CGColorRef SSPatternColorCreate(CGSize size, CGFloat backingScaleFactor, void (^
         CGAffineTransformMakeScale(1.0 / backingScaleFactor, 1.0 / backingScaleFactor),
         size.width * backingScaleFactor,
         size.height * backingScaleFactor, kCGPatternTilingNoDistortion, YES, &kPatternCallbacks));
-        SSAssertOrRecover(pattern, return nil);
+        EBAssertOrRecover(pattern, return nil);
     
     /* If we get here, the pattern was created and therefore we need to retain the block on behalf of it */
     CFRetain((__bridge void *)drawPatternTrampolineBlock);
     
     CGColorSpaceRef patternColorSpace = SSCFAutorelease(CGColorSpaceCreatePattern(nil));
-        SSAssertOrRecover(patternColorSpace, return nil);
+        EBAssertOrRecover(patternColorSpace, return nil);
         
         /* Verify that kColorComponents has enough elements for the given colorspace. CGColorSpaceGetNumberOfComponents()
            doesn't return the alpha component, so we add one. */
-        SSAssertOrRecover(CGColorSpaceGetNumberOfComponents(patternColorSpace) + 1 <= SSStaticArrayCount(kColorComponents), return nil);
+        EBAssertOrRecover(CGColorSpaceGetNumberOfComponents(patternColorSpace) + 1 <= EBStaticArrayCount(kColorComponents), return nil);
     
     return CGColorCreateWithPattern(patternColorSpace, pattern, kColorComponents);
 }
